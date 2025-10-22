@@ -1,122 +1,148 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import axios from 'axios';
 import App from '../../reactapp/src/App';
 
-// Mock axios
-jest.mock('axios');
-const mockedAxios = axios;
+// Mock fetch
+global.fetch = jest.fn();
 
-// Test Case 1: Axios GET request - fetches and displays recipe data
-test('fetches and displays recipe cookbook using axios GET', async () => {
-  const mockData = {
-    data: [
-      { id: 1, title: 'Chocolate Italian Masterpiece' },
-      { id: 2, title: 'Vanilla French Delight' }
-    ]
-  };
+// Test Case 1: Fetch API GET request - fetches and displays hero data
+test('fetches and displays Marvel heroes using fetch GET', async () => {
+  const mockData = [
+    { id: 1, name: 'Tony Stark', address: { city: 'New York' }, company: { name: 'Avengers' } },
+    { id: 2, name: 'Steve Rogers', address: { city: 'Brooklyn' }, company: { name: 'S.H.I.E.L.D.' } }
+  ];
   
-  mockedAxios.get.mockResolvedValueOnce(mockData);
+  fetch.mockResolvedValueOnce({
+    ok: true,
+    json: async () => mockData
+  });
   
   render(<App />);
   
   await waitFor(() => {
-    expect(screen.getByText(/Chocolate Deluxe Recipe/)).toBeInTheDocument();
+    expect(screen.getByText(/Tony Hero/)).toBeInTheDocument();
   });
 });
 
-// Test Case 2: Axios POST request - adds new recipe
-test('adds new recipe using axios POST request', async () => {
-  const mockGetData = { data: [] };
-  const mockPostData = { data: { id: 101 } };
+// Test Case 2: Fetch API POST request - adds new hero
+test('adds new hero using fetch POST request', async () => {
+  const mockGetData = [];
+  const mockPostData = { id: 101 };
   
-  mockedAxios.get.mockResolvedValueOnce(mockGetData);
-  mockedAxios.post.mockResolvedValueOnce(mockPostData);
+  fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockGetData
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPostData
+    });
   
   render(<App />);
   
-  const nameInput = screen.getByPlaceholderText(/Recipe name/);
-  const cuisineInput = screen.getByPlaceholderText(/Cuisine type/);
-  const difficultySelect = screen.getByDisplayValue('Easy');
-  const timeInput = screen.getByPlaceholderText(/Cooking time/);
-  const submitButton = screen.getByText(/Add to Cookbook/);
+  const nameInput = screen.getByPlaceholderText(/Hero name/);
+  const realNameInput = screen.getByPlaceholderText(/Real name/);
+  const missionInput = screen.getByPlaceholderText(/Mission/);
+  const powerInput = screen.getByPlaceholderText(/Power level/);
+  const teamSelect = screen.getByDisplayValue('');
+  const submitButton = screen.getByText(/Register Hero/);
   
-  fireEvent.change(nameInput, { target: { value: 'Pasta Carbonara' } });
-  fireEvent.change(cuisineInput, { target: { value: 'Italian' } });
-  fireEvent.change(difficultySelect, { target: { value: '2' } });
-  fireEvent.change(timeInput, { target: { value: '30' } });
+  fireEvent.change(nameInput, { target: { value: 'Spider-Man' } });
+  fireEvent.change(realNameInput, { target: { value: 'Peter Parker' } });
+  fireEvent.change(missionInput, { target: { value: 'Protect Queens' } });
+  fireEvent.change(powerInput, { target: { value: '85' } });
+  fireEvent.change(teamSelect, { target: { value: 'Avengers' } });
   fireEvent.click(submitButton);
   
   await waitFor(() => {
-    expect(screen.getByText('Pasta Carbonara')).toBeInTheDocument();
+    expect(screen.getByText('Spider-Man')).toBeInTheDocument();
   });
 });
 
-// Test Case 3: Axios DELETE request - removes recipe
-test('deletes recipe using axios DELETE request', async () => {
-  const mockGetData = {
-    data: [{ id: 1, title: 'Test Recipe' }]
-  };
+// Test Case 3: Fetch API PUT request - updates hero status
+test('updates hero status using fetch PUT request', async () => {
+  const mockGetData = [
+    { id: 1, name: 'Bruce Banner', address: { city: 'New York' }, company: { name: 'Avengers' } }
+  ];
   
-  mockedAxios.get.mockResolvedValueOnce(mockGetData);
-  mockedAxios.delete.mockResolvedValueOnce({});
+  fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockGetData
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ status: 'Inactive' })
+    });
   
   render(<App />);
   
   await waitFor(() => {
-    expect(screen.getByText(/Test Deluxe Recipe/)).toBeInTheDocument();
+    expect(screen.getByText(/Bruce Hero/)).toBeInTheDocument();
   });
   
-  const deleteButton = screen.getByText(/Delete/);
-  fireEvent.click(deleteButton);
+  const deactivateButton = screen.getByText('Deactivate');
+  fireEvent.click(deactivateButton);
   
   await waitFor(() => {
-    expect(screen.getByText(/Recipe removed from cookbook/)).toBeInTheDocument();
+    expect(screen.getByText(/Hero status updated to Inactive/)).toBeInTheDocument();
   });
 });
 
-// Test Case 4: Loading state with cooking animation
-test('displays cooking loader during API requests', async () => {
-  mockedAxios.get.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
+// Test Case 4: Loading state with S.H.I.E.L.D. animation
+test('displays Marvel loader during API requests', async () => {
+  fetch.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
   
   render(<App />);
   
-  expect(screen.getByText(/Cooking up your recipes/)).toBeInTheDocument();
+  expect(screen.getByText(/Connecting to S.H.I.E.L.D. database/)).toBeInTheDocument();
 });
 
 // Test Case 5: Error handling for failed requests
 test('handles and displays error when API request fails', async () => {
-  mockedAxios.get.mockRejectedValueOnce(new Error('Network Error'));
+  fetch.mockRejectedValueOnce(new Error('Network Error'));
   
   render(<App />);
   
   await waitFor(() => {
-    expect(screen.getByText(/Failed to fetch recipes from the kitchen database/)).toBeInTheDocument();
+    expect(screen.getByText(/Failed to connect to S.H.I.E.L.D. database/)).toBeInTheDocument();
   });
 });
 
 // Test Case 6: Success state handling for POST requests
-test('displays success message when recipe is added successfully', async () => {
-  const mockGetData = { data: [] };
-  const mockPostData = { data: { id: 102 } };
+test('displays success message when hero is registered successfully', async () => {
+  const mockGetData = [];
+  const mockPostData = { id: 102 };
   
-  mockedAxios.get.mockResolvedValueOnce(mockGetData);
-  mockedAxios.post.mockResolvedValueOnce(mockPostData);
+  fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockGetData
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPostData
+    });
   
   render(<App />);
   
-  const nameInput = screen.getByPlaceholderText(/Recipe name/);
-  const cuisineInput = screen.getByPlaceholderText(/Cuisine type/);
-  const timeInput = screen.getByPlaceholderText(/Cooking time/);
-  const submitButton = screen.getByText(/Add to Cookbook/);
+  const nameInput = screen.getByPlaceholderText(/Hero name/);
+  const realNameInput = screen.getByPlaceholderText(/Real name/);
+  const missionInput = screen.getByPlaceholderText(/Mission/);
+  const powerInput = screen.getByPlaceholderText(/Power level/);
+  const teamSelect = screen.getByDisplayValue('');
+  const submitButton = screen.getByText(/Register Hero/);
   
-  fireEvent.change(nameInput, { target: { value: 'Beef Stew' } });
-  fireEvent.change(cuisineInput, { target: { value: 'American' } });
-  fireEvent.change(timeInput, { target: { value: '120' } });
+  fireEvent.change(nameInput, { target: { value: 'Captain Marvel' } });
+  fireEvent.change(realNameInput, { target: { value: 'Carol Danvers' } });
+  fireEvent.change(missionInput, { target: { value: 'Protect Earth' } });
+  fireEvent.change(powerInput, { target: { value: '95' } });
+  fireEvent.change(teamSelect, { target: { value: 'Avengers' } });
   fireEvent.click(submitButton);
   
   await waitFor(() => {
-    expect(screen.getByText(/New recipe added to the cookbook successfully/)).toBeInTheDocument();
+    expect(screen.getByText(/New hero successfully registered with S.H.I.E.L.D./)).toBeInTheDocument();
   });
 });

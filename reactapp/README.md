@@ -1,40 +1,40 @@
-# 👨🍳 Gourmet Food Recipe API Manager 🍽️
+# 🦸 Marvel Heroes Mission API Tracker ⚡
 
-A React application demonstrating comprehensive API integration with food recipe management system.
+A React application demonstrating comprehensive API integration with Marvel-themed hero management system.
 
 ## API Features Implemented
 
 ### Core API Concepts:
-- **Axios GET Requests**: Fetches recipe database from mock API
-- **Axios POST Requests**: Adds new recipes to cookbook
-- **Axios DELETE Requests**: Removes recipes from database
+- **Fetch API GET Requests**: Fetches hero registry from mock API
+- **Fetch API POST Requests**: Registers new heroes with S.H.I.E.L.D.
+- **Fetch API PUT Requests**: Updates hero status (Active/Inactive)
 - **Error Handling**: Comprehensive error handling for all API operations
-- **Loading States**: Cooking animation during API calls
+- **Loading States**: S.H.I.E.L.D. shield spinner animation
 - **Success States**: Confirmation messages for completed operations
 
 ### App Functionality:
-- Fetch recipe collection from mock API (GET requests)
-- Add new recipes to cookbook (POST requests)
-- Delete recipes from database (DELETE requests)
-- Display cooking-themed loading animations
-- Handle and display API errors with food-themed messages
+- Fetch hero registry from mock API (GET requests)
+- Register new heroes with S.H.I.E.L.D. (POST requests)
+- Update hero status Active/Inactive (PUT requests)
+- Display Marvel-themed loading animations
+- Handle and display API errors with Marvel references
 - Show success messages for completed operations
-- Recipe rating and difficulty system
-- Availability status tracking
+- Hero power level tracking (1-100)
+- Marvel team assignment system
 
 ## API Integration Details:
-- **GET Endpoint**: `https://jsonplaceholder.typicode.com/posts`
-- **POST Endpoint**: `https://jsonplaceholder.typicode.com/posts`
-- **DELETE Endpoint**: `https://jsonplaceholder.typicode.com/posts/{id}`
-- **Error Handling**: Network errors, server errors, timeout handling
-- **Loading States**: Animated cooking pots with steam effects
-- **Data Transformation**: Maps API responses to recipe data structure
+- **GET Endpoint**: `https://jsonplaceholder.typicode.com/users`
+- **POST Endpoint**: `https://jsonplaceholder.typicode.com/users`
+- **PUT Endpoint**: `https://jsonplaceholder.typicode.com/users/{id}`
+- **Error Handling**: Network errors, server errors, response validation
+- **Loading States**: S.H.I.E.L.D. shield spinner with superhero colors
+- **Data Transformation**: Maps API responses to Marvel hero data structure
 
 ## Components Structure:
-- `App.js` - Main component with comprehensive API integration
-- `RecipeList.js` - Displays recipes with delete functionality
-- `RecipeForm.js` - Form for POST requests with validation
-- `CookingLoader.js` - Loading state with cooking animations
+- `App.js` - Main component with comprehensive Fetch API integration
+- `HeroList.js` - Displays heroes with status update functionality
+- `MissionForm.js` - Form for POST requests with Marvel team selection
+- `MarvelLoader.js` - Loading state with S.H.I.E.L.D. shield animation
 
 ## Running the App:
 ```bash
@@ -50,12 +50,12 @@ npm test
 
 ## Test Coverage:
 6 comprehensive test cases covering:
-1. GET requests with Axios
-2. POST requests with form submission
-3. DELETE requests with recipe removal
-4. Loading state with cooking animations
+1. GET requests with Fetch API
+2. POST requests with hero registration
+3. PUT requests with status updates
+4. Loading state with S.H.I.E.L.D. animations
 5. Error handling for failed requests
 6. Success state handling
 
-## Theme: Gourmet Food Recipe Management
-Pure food-themed interface with warm colors, cooking animations, and comprehensive recipe management features.
+## Theme: Marvel Heroes & S.H.I.E.L.D. Management
+Pure Marvel aesthetic with superhero colors, S.H.I.E.L.D. branding, and comprehensive hero management features.
