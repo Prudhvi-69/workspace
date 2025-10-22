@@ -3,20 +3,20 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(135deg, #0d1421, #1a252f, #2c3e50);
+  background: linear-gradient(135deg, #1a1a1a, #2c2c2c, #0f0f23);
   min-height: 100vh;
-  color: #ecf0f1;
+  color: #ffffff;
 }
 
 .App-header {
-  background: linear-gradient(135deg, #e74c3c, #c0392b, #8e44ad);
+  background: linear-gradient(135deg, #8e44ad, #2c3e50, #e74c3c);
   padding: 50px;
   color: white;
   border-radius: 25px;
   margin-bottom: 50px;
-  box-shadow: 0 15px 35px rgba(231,76,60,0.4);
-  border: 3px solid #e74c3c;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  box-shadow: 0 15px 35px rgba(142,68,173,0.4);
+  border: 3px solid #8e44ad;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
 }
 
 .App-header p {
@@ -26,14 +26,14 @@
 }
 
 .error-message {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
+  background: linear-gradient(135deg, #8e44ad, #9b59b6);
   color: white;
   padding: 20px;
   border-radius: 15px;
   margin: 20px 0;
   font-size: 16px;
-  box-shadow: 0 8px 20px rgba(231,76,60,0.3);
-  border: 2px solid #c0392b;
+  box-shadow: 0 8px 20px rgba(142,68,173,0.3);
+  border: 2px solid #8e44ad;
 }
 
 .success-message {
@@ -47,35 +47,44 @@
   border: 2px solid #27ae60;
 }
 
-.marvel-loader {
+.dc-loader {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px;
 }
 
-.shield-spinner {
+.bat-signal {
   width: 60px;
   height: 60px;
-  border: 6px solid #34495e;
-  border-top: 6px solid #e74c3c;
-  border-right: 6px solid #3498db;
+  background: linear-gradient(135deg, #f1c40f, #f39c12);
   border-radius: 50%;
-  animation: shieldSpin 2s linear infinite;
+  position: relative;
+  animation: batSignal 2s ease-in-out infinite;
 }
 
-@keyframes shieldSpin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.bat-signal::before {
+  content: '🦇';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  color: #2c3e50;
 }
 
-.mission-form {
+@keyframes batSignal {
+  0%, 100% { box-shadow: 0 0 20px #f1c40f; }
+  50% { box-shadow: 0 0 40px #f39c12, 0 0 60px #f1c40f; }
+}
+
+.villain-form {
   background: linear-gradient(135deg, #2c3e50, #34495e);
   padding: 40px;
   border-radius: 20px;
   margin: 40px 0;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
-  border: 2px solid #3498db;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
+  border: 2px solid #8e44ad;
 }
 
 .form-grid {
@@ -85,22 +94,28 @@
   margin-bottom: 30px;
 }
 
-.form-grid input, .form-grid select {
+.form-grid input, .form-grid select, .form-grid textarea {
   padding: 16px;
-  border: 2px solid #3498db;
+  border: 2px solid #8e44ad;
   border-radius: 12px;
   font-size: 16px;
-  background: rgba(52,73,94,0.8);
-  color: #ecf0f1;
+  background: rgba(44,62,80,0.8);
+  color: #ffffff;
 }
 
-.form-grid input::placeholder {
-  color: #95a5a6;
+.form-grid textarea {
+  grid-column: span 2;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.form-grid input::placeholder, .form-grid textarea::placeholder {
+  color: #bdc3c7;
 }
 
 .submit-btn {
   padding: 16px 35px;
-  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  background: linear-gradient(45deg, #8e44ad, #9b59b6);
   color: white;
   border: none;
   border-radius: 12px;
@@ -112,85 +127,86 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(231,76,60,0.4);
+  box-shadow: 0 8px 25px rgba(142,68,173,0.4);
 }
 
-.hero-list {
+.villain-list {
   margin: 50px 0;
 }
 
-.hero-grid {
+.villain-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 25px;
   margin-top: 30px;
 }
 
-.hero-item {
+.villain-item {
   background: linear-gradient(135deg, #34495e, #2c3e50);
   padding: 30px;
   border-radius: 18px;
-  border: 2px solid #3498db;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  border: 2px solid #8e44ad;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
   transition: all 0.3s ease;
   position: relative;
 }
 
-.hero-item:hover {
+.villain-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(52,152,219,0.3);
+  box-shadow: 0 15px 35px rgba(142,68,173,0.3);
 }
 
-.hero-item.active {
+.villain-item.captured {
   border-color: #27ae60;
   box-shadow: 0 10px 25px rgba(39,174,96,0.3);
 }
 
-.hero-item.inactive {
+.villain-item.free {
   border-color: #e74c3c;
   box-shadow: 0 10px 25px rgba(231,76,60,0.3);
 }
 
-.hero-name {
+.villain-name {
   font-size: 22px;
   font-weight: bold;
-  color: #3498db;
+  color: #8e44ad;
   margin-bottom: 15px;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
-.hero-real-name {
+.villain-real-name {
   font-size: 16px;
-  color: #95a5a6;
+  color: #bdc3c7;
   margin-bottom: 10px;
 }
 
-.hero-mission {
+.villain-city {
   font-size: 16px;
   color: #f39c12;
   margin-bottom: 10px;
 }
 
-.hero-team {
-  font-size: 14px;
-  color: #9b59b6;
-  margin-bottom: 15px;
-}
-
-.hero-power {
+.villain-threat {
   font-size: 18px;
   font-weight: bold;
   color: #e74c3c;
   margin-bottom: 15px;
 }
 
-.status-controls {
-  display: flex;
-  gap: 10px;
-  margin-top: 15px;
+.villain-scheme {
+  font-size: 14px;
+  color: #95a5a6;
+  margin-bottom: 20px;
+  font-style: italic;
 }
 
-.status-btn {
+.villain-controls {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.control-btn {
   padding: 8px 16px;
   border: none;
   border-radius: 8px;
@@ -200,13 +216,18 @@
   transition: all 0.2s ease;
 }
 
-.active-btn {
+.capture-btn {
   background: linear-gradient(45deg, #27ae60, #2ecc71);
   color: white;
 }
 
-.inactive-btn {
+.release-btn {
   background: linear-gradient(45deg, #e74c3c, #c0392b);
+  color: white;
+}
+
+.delete-btn {
+  background: linear-gradient(45deg, #34495e, #2c3e50);
   color: white;
 }
 
@@ -220,19 +241,19 @@
   font-weight: bold;
 }
 
-.active-status {
+.captured-status {
   background: linear-gradient(45deg, #27ae60, #2ecc71);
   color: white;
 }
 
-.inactive-status {
+.free-status {
   background: linear-gradient(45deg, #e74c3c, #c0392b);
   color: white;
 }
 
 .refresh-btn {
   padding: 18px 40px;
-  background: linear-gradient(45deg, #8e44ad, #9b59b6);
+  background: linear-gradient(45deg, #f39c12, #e67e22);
   color: white;
   border: none;
   border-radius: 12px;
@@ -245,5 +266,5 @@
 
 .refresh-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 25px rgba(142,68,173,0.4);
+  box-shadow: 0 10px 25px rgba(243,156,18,0.4);
 }

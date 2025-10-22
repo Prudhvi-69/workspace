@@ -1,112 +1,100 @@
 import React, { useState, useEffect } from 'react';
-import HeroList from './components/HeroList';
-import MissionForm from './components/MissionForm';
-import MarvelLoader from './components/MarvelLoader';
+import axios from 'axios';
+import VillainList from './components/VillainList';
+import VillainForm from './components/VillainForm';
+import DCLoader from './components/DCLoader';
 import './App.css';
 
 function App() {
-  const [heroes, setHeroes] = useState([]);
+  const [villains, setVillains] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetchHeroes();
+    fetchVillains();
   }, []);
 
-  const fetchHeroes = async () => {
+  const fetchVillains = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users');
-      
-      if (!response.ok) {
-        throw new Error('Failed to fetch heroes');
-      }
-      
-      const data = await response.json();
-      const marvelHeroes = data.slice(0, 5).map(user => ({
-        id: user.id,
-        name: `${user.name.split(' ')[0]} Hero`,
-        realName: user.name,
-        mission: `Protect ${user.address.city}`,
-        power: Math.floor(Math.random() * 100) + 1,
-        status: Math.random() > 0.3 ? 'Active' : 'Inactive',
-        team: user.company.name
+      const response = await axios.get('https://jsonplaceholder.typicode.com/comments');
+      const dcVillains = response.data.slice(0, 6).map(comment => ({
+        id: comment.id,
+        name: `${comment.name.split(' ')[0]} Villain`,
+        realName: comment.name,
+        city: comment.email.split('@')[0].toUpperCase(),
+        threat: Math.floor(Math.random() * 5) + 1,
+        captured: Math.random() > 0.4,
+        scheme: comment.body.substring(0, 50) + '...'
       }));
-      
-      setHeroes(marvelHeroes);
+      setVillains(dcVillains);
     } catch (err) {
-      setError('Failed to connect to S.H.I.E.L.D. database. Hydra interference detected!');
+      setError('Failed to access Arkham Asylum database. Joker may have hacked the system!');
     } finally {
       setLoading(false);
     }
   };
 
-  const addHero = async (newHero) => {
+  const addVillain = async (newVillain) => {
     setLoading(true);
     setError(null);
     setSuccess('');
     try {
-      const response = await fetch('https://jsonplaceholder.typicode.com/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: newHero.realName,
-          address: { city: newHero.mission.split(' ')[1] || 'New York' },
-          company: { name: newHero.team }
-        })
+      const response = await axios.post('https://jsonplaceholder.typicode.com/comments', {
+        name: newVillain.realName,
+        email: `${newVillain.city.toLowerCase()}@gotham.dc`,
+        body: newVillain.scheme
       });
       
-      if (!response.ok) {
-        throw new Error('Failed to register hero');
-      }
-      
-      const result = await response.json();
-      
-      const hero = {
-        id: result.id || Date.now(),
-        name: newHero.name,
-        realName: newHero.realName,
-        mission: newHero.mission,
-        power: newHero.power,
-        status: 'Active',
-        team: newHero.team
+      const villain = {
+        id: response.data.id,
+        name: newVillain.name,
+        realName: newVillain.realName,
+        city: newVillain.city,
+        threat: newVillain.threat,
+        captured: false,
+        scheme: newVillain.scheme
       };
       
-      setHeroes([...heroes, hero]);
-      setSuccess('New hero successfully registered with S.H.I.E.L.D.!');
+      setVillains([...villains, villain]);
+      setSuccess('New villain added to Arkham database!');
     } catch (err) {
-      setError('Failed to register hero. Nick Fury is investigating the issue.');
+      setError('Failed to register villain. Batman may be interfering with communications.');
     } finally {
       setLoading(false);
     }
   };
 
-  const updateHeroStatus = async (id, newStatus) => {
+  const updateVillainStatus = async (id, captured) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ status: newStatus })
+      await axios.patch(`https://jsonplaceholder.typicode.com/comments/${id}`, {
+        captured: captured
       });
       
-      if (!response.ok) {
-        throw new Error('Failed to update hero status');
-      }
-      
-      setHeroes(heroes.map(hero =>
-        hero.id === id ? { ...hero, status: newStatus } : hero
+      setVillains(villains.map(villain =>
+        villain.id === id ? { ...villain, captured } : villain
       ));
-      setSuccess(`Hero status updated to ${newStatus}!`);
+      setSuccess(`Villain ${captured ? 'captured' : 'escaped'}!`);
     } catch (err) {
-      setError('Failed to update hero status. Communication with S.H.I.E.L.D. lost.');
+      setError('Failed to update villain status. Security breach detected!');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const deleteVillain = async (id) => {
+    setLoading(true);
+    setError(null);
+    try {
+      await axios.delete(`https://jsonplaceholder.typicode.com/comments/${id}`);
+      setVillains(villains.filter(villain => villain.id !== id));
+      setSuccess('Villain eliminated from database!');
+    } catch (err) {
+      setError('Failed to eliminate villain record. Database is corrupted!');
     } finally {
       setLoading(false);
     }
@@ -115,20 +103,24 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🦸 Marvel Heroes Mission API Tracker ⚡</h1>
-        <p>S.H.I.E.L.D. Hero Management System</p>
+        <h1>🦹 DC Comics Villain Database API 💀</h1>
+        <p>Arkham Asylum Criminal Management System</p>
       </header>
       
       <main>
-        {loading && <MarvelLoader />}
+        {loading && <DCLoader />}
         {error && <div className="error-message">❌ {error}</div>}
         {success && <div className="success-message">✅ {success}</div>}
         
-        <MissionForm onAddHero={addHero} />
-        <HeroList heroes={heroes} onUpdateStatus={updateHeroStatus} />
+        <VillainForm onAddVillain={addVillain} />
+        <VillainList 
+          villains={villains} 
+          onUpdateStatus={updateVillainStatus}
+          onDeleteVillain={deleteVillain}
+        />
         
-        <button onClick={fetchHeroes} className="refresh-btn">
-          🔄 Refresh S.H.I.E.L.D. Database
+        <button onClick={fetchVillains} className="refresh-btn">
+          🔄 Refresh Arkham Database
         </button>
       </main>
     </div>
