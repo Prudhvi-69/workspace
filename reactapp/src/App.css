@@ -3,69 +3,89 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(135deg, #000000, #1a1a2e, #16213e);
+  background: linear-gradient(135deg, #000000, #001100, #003300);
   min-height: 100vh;
-  color: #fff;
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
 }
 
 .App-header {
-  background: linear-gradient(135deg, #ffd700, #ffed4e, #f39c12);
+  background: linear-gradient(135deg, #001100, #003300);
   padding: 50px;
-  color: #000;
-  border-radius: 30px;
+  color: #00ff00;
+  border-radius: 15px;
   margin-bottom: 50px;
-  box-shadow: 0 20px 40px rgba(255,215,0,0.3);
-  border: 3px solid #ffd700;
+  box-shadow: 0 0 30px #00ff00;
+  border: 2px solid #00ff00;
+  text-shadow: 0 0 10px #00ff00;
+}
+
+.App-header p {
+  margin-top: 15px;
+  font-size: 18px;
+  opacity: 0.8;
 }
 
 .error-message {
-  background: linear-gradient(135deg, #e74c3c, #c0392b);
-  color: white;
+  background: linear-gradient(135deg, #ff0000, #cc0000);
+  color: #ffffff;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   margin: 20px 0;
-  font-size: 18px;
-  box-shadow: 0 8px 20px rgba(231,76,60,0.3);
+  font-size: 16px;
+  box-shadow: 0 0 20px #ff0000;
+  border: 1px solid #ff0000;
 }
 
 .success-message {
-  background: linear-gradient(135deg, #27ae60, #2ecc71);
-  color: white;
+  background: linear-gradient(135deg, #00ff00, #00cc00);
+  color: #000000;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 10px;
   margin: 20px 0;
-  font-size: 18px;
-  box-shadow: 0 8px 20px rgba(39,174,96,0.3);
+  font-size: 16px;
+  box-shadow: 0 0 20px #00ff00;
+  border: 1px solid #00ff00;
 }
 
-.loading-spinner {
+.matrix-loader {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
   padding: 40px;
 }
 
-.spinner {
-  width: 60px;
-  height: 60px;
-  border: 6px solid #ffd700;
-  border-top: 6px solid transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
+.matrix-rain {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 20px;
 }
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+.rain-drop {
+  width: 3px;
+  height: 30px;
+  background: linear-gradient(to bottom, transparent, #00ff00);
+  animation: matrixFall 1s linear infinite;
+}
+
+.rain-drop:nth-child(2) { animation-delay: 0.2s; }
+.rain-drop:nth-child(3) { animation-delay: 0.4s; }
+.rain-drop:nth-child(4) { animation-delay: 0.6s; }
+.rain-drop:nth-child(5) { animation-delay: 0.8s; }
+
+@keyframes matrixFall {
+  0% { transform: translateY(-30px); opacity: 0; }
+  50% { opacity: 1; }
+  100% { transform: translateY(30px); opacity: 0; }
 }
 
 .order-form {
-  background: linear-gradient(135deg, #2c3e50, #34495e);
+  background: linear-gradient(135deg, #001100, #002200);
   padding: 40px;
-  border-radius: 20px;
+  border-radius: 15px;
   margin: 40px 0;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-  border: 2px solid #ffd700;
+  box-shadow: 0 0 25px #00ff00;
+  border: 1px solid #00ff00;
 }
 
 .form-grid {
@@ -76,116 +96,135 @@
 }
 
 .form-grid input {
-  padding: 18px;
-  border: 2px solid #ffd700;
-  border-radius: 12px;
+  padding: 15px;
+  border: 1px solid #00ff00;
+  border-radius: 8px;
   font-size: 16px;
-  background: rgba(255,255,255,0.1);
-  color: #fff;
+  background: rgba(0,0,0,0.8);
+  color: #00ff00;
+  font-family: 'Courier New', monospace;
 }
 
 .form-grid input::placeholder {
-  color: #bdc3c7;
+  color: #006600;
+}
+
+.form-grid input:focus {
+  outline: none;
+  box-shadow: 0 0 15px #00ff00;
 }
 
 .submit-btn {
-  padding: 18px 40px;
-  background: linear-gradient(45deg, #ffd700, #f39c12);
-  color: #000;
+  padding: 15px 35px;
+  background: linear-gradient(45deg, #00ff00, #00cc00);
+  color: #000000;
   border: none;
-  border-radius: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: bold;
+  font-family: 'Courier New', monospace;
   transition: all 0.3s ease;
 }
 
 .submit-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 25px rgba(255,215,0,0.4);
+  box-shadow: 0 0 20px #00ff00;
+  transform: translateY(-2px);
 }
 
-.food-list {
+.restaurant-list {
   margin: 50px 0;
 }
 
-.food-grid {
+.restaurant-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 30px;
+  gap: 25px;
   margin-top: 30px;
 }
 
-.food-item {
-  background: linear-gradient(135deg, #34495e, #2c3e50);
-  padding: 30px;
-  border-radius: 18px;
-  border: 2px solid #ffd700;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+.restaurant-item {
+  background: linear-gradient(135deg, #001100, #002200);
+  padding: 25px;
+  border-radius: 12px;
+  border: 1px solid #00ff00;
+  box-shadow: 0 0 20px rgba(0,255,0,0.2);
   transition: all 0.3s ease;
 }
 
-.food-item:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 40px rgba(255,215,0,0.2);
+.restaurant-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px #00ff00;
 }
 
-.food-item.available {
-  border-color: #27ae60;
-  box-shadow: 0 12px 30px rgba(39,174,96,0.2);
+.restaurant-item.online {
+  border-color: #00ff00;
+  box-shadow: 0 0 25px rgba(0,255,0,0.3);
 }
 
-.food-name {
-  font-size: 24px;
+.restaurant-item.offline {
+  border-color: #ff0000;
+  box-shadow: 0 0 25px rgba(255,0,0,0.3);
+}
+
+.restaurant-name {
+  font-size: 20px;
   font-weight: bold;
-  color: #ffd700;
-  margin-bottom: 15px;
+  color: #00ff00;
+  margin-bottom: 12px;
+  text-shadow: 0 0 5px #00ff00;
 }
 
-.food-planet {
-  font-size: 18px;
-  color: #3498db;
+.restaurant-location {
+  font-size: 16px;
+  color: #00cc00;
+  margin-bottom: 8px;
+}
+
+.restaurant-specialty {
+  font-size: 14px;
+  color: #009900;
   margin-bottom: 10px;
 }
 
-.food-price {
-  font-size: 22px;
+.restaurant-rating {
+  font-size: 16px;
+  color: #00ff00;
+  margin-bottom: 10px;
+}
+
+.status-indicator {
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 12px;
   font-weight: bold;
-  color: #e74c3c;
-  margin-bottom: 15px;
 }
 
-.availability-status {
-  padding: 10px 20px;
-  border-radius: 25px;
-  font-weight: bold;
-  font-size: 14px;
+.online-status {
+  background: linear-gradient(45deg, #00ff00, #00cc00);
+  color: #000000;
 }
 
-.available-status {
-  background: linear-gradient(45deg, #27ae60, #2ecc71);
-  color: white;
-}
-
-.unavailable-status {
-  background: linear-gradient(45deg, #e74c3c, #c0392b);
-  color: white;
+.offline-status {
+  background: linear-gradient(45deg, #ff0000, #cc0000);
+  color: #ffffff;
 }
 
 .refresh-btn {
-  padding: 20px 50px;
-  background: linear-gradient(45deg, #3498db, #2980b9);
-  color: white;
+  padding: 18px 40px;
+  background: linear-gradient(45deg, #00ff00, #00cc00);
+  color: #000000;
   border: none;
-  border-radius: 15px;
+  border-radius: 10px;
   cursor: pointer;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: bold;
+  font-family: 'Courier New', monospace;
   margin: 40px 0;
   transition: all 0.3s ease;
 }
 
 .refresh-btn:hover {
+  box-shadow: 0 0 25px #00ff00;
   transform: translateY(-3px);
-  box-shadow: 0 10px 30px rgba(52,152,219,0.4);
 }

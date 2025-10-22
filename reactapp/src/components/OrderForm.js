@@ -1,21 +1,21 @@
 import React, { useState } from 'react';
 
-const OrderForm = ({ onAddFood }) => {
+const OrderForm = ({ onAddRestaurant }) => {
   const [formData, setFormData] = useState({
     name: '',
-    planet: '',
-    price: ''
+    location: '',
+    specialty: ''
   });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formData.name.trim() && formData.planet.trim() && formData.price.trim()) {
-      onAddFood({
+    if (formData.name.trim() && formData.location.trim() && formData.specialty.trim()) {
+      onAddRestaurant({
         name: formData.name,
-        planet: formData.planet,
-        price: parseInt(formData.price)
+        location: formData.location,
+        specialty: formData.specialty
       });
-      setFormData({ name: '', planet: '', price: '' });
+      setFormData({ name: '', location: '', specialty: '' });
     }
   };
 
@@ -28,34 +28,33 @@ const OrderForm = ({ onAddFood }) => {
 
   return (
     <div className="order-form">
-      <h3>🍴 Add New Cantina Dish</h3>
+      <h3>🔌 Jack Into New Restaurant</h3>
       <form onSubmit={handleSubmit}>
         <div className="form-grid">
           <input
             type="text"
             name="name"
-            placeholder="Dish name (e.g., Bantha Burger)..."
+            placeholder="Restaurant name (e.g., Neo's Noodles)..."
             value={formData.name}
             onChange={handleChange}
           />
           <input
             type="text"
-            name="planet"
-            placeholder="Origin planet (e.g., Tatooine)..."
-            value={formData.planet}
+            name="location"
+            placeholder="Matrix location (e.g., Level 7 - Zion)..."
+            value={formData.location}
             onChange={handleChange}
           />
           <input
-            type="number"
-            name="price"
-            placeholder="Price in credits..."
-            min="1"
-            value={formData.price}
+            type="text"
+            name="specialty"
+            placeholder="Digital specialty (e.g., Red Pill Ramen)..."
+            value={formData.specialty}
             onChange={handleChange}
           />
         </div>
         <button type="submit" className="submit-btn">
-          🚀 Add to Cantina Menu
+          🔴 Upload to Matrix
         </button>
       </form>
     </div>

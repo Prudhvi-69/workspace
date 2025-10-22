@@ -1,63 +1,83 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import FoodList from './components/FoodList';
+import RestaurantList from './components/RestaurantList';
 import OrderForm from './components/OrderForm';
-import LoadingSpinner from './components/LoadingSpinner';
+import MatrixLoader from './components/MatrixLoader';
 import './App.css';
 
 function App() {
-  const [foods, setFoods] = useState([]);
+  const [restaurants, setRestaurants] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState('');
 
   useEffect(() => {
-    fetchFoods();
+    fetchRestaurants();
   }, []);
 
-  const fetchFoods = async () => {
+  const fetchRestaurants = async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
-      const starWarsFoods = response.data.slice(0, 6).map(post => ({
-        id: post.id,
-        name: `${post.title.split(' ')[0]} Cantina Special`,
-        planet: post.title.split(' ')[1] || 'Tatooine',
-        price: Math.floor(Math.random() * 50) + 10,
-        available: Math.random() > 0.3
+      const response = await fetch('https://jsonplaceholder.typicode.com/users');
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      
+      const matrixRestaurants = data.slice(0, 5).map(user => ({
+        id: user.id,
+        name: `${user.name} Digital Diner`,
+        location: `Level ${user.id} - ${user.address.city}`,
+        specialty: `${user.company.name} Special`,
+        rating: Math.floor(Math.random() * 5) + 1,
+        online: Math.random() > 0.2
       }));
-      setFoods(starWarsFoods);
+      
+      setRestaurants(matrixRestaurants);
     } catch (err) {
-      setError('Failed to fetch Star Wars cantina menu. The Empire may be interfering.');
+      setError('Connection to the Matrix failed. Agent Smith may be interfering.');
     } finally {
       setLoading(false);
     }
   };
 
-  const addFood = async (newFood) => {
+  const addRestaurant = async (newRestaurant) => {
     setLoading(true);
     setError(null);
     setSuccess('');
     try {
-      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
-        title: newFood.name,
-        body: `Delicious food from ${newFood.planet}`,
-        userId: 1
+      const response = await fetch('https://jsonplaceholder.typicode.com/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: newRestaurant.name,
+          address: { city: newRestaurant.location },
+          company: { name: newRestaurant.specialty }
+        })
       });
       
-      const foodItem = {
-        id: response.data.id,
-        name: newFood.name,
-        planet: newFood.planet,
-        price: newFood.price,
-        available: true
+      if (!response.ok) {
+        throw new Error('Failed to create restaurant');
+      }
+      
+      const result = await response.json();
+      
+      const restaurant = {
+        id: result.id || Date.now(),
+        name: newRestaurant.name,
+        location: newRestaurant.location,
+        specialty: newRestaurant.specialty,
+        rating: 5,
+        online: true
       };
       
-      setFoods([...foods, foodItem]);
-      setSuccess('New cantina dish added successfully!');
+      setRestaurants([...restaurants, restaurant]);
+      setSuccess('New restaurant successfully jacked into the Matrix!');
     } catch (err) {
-      setError('Failed to add food item. The Death Star may be blocking transmissions.');
+      setError('Failed to upload restaurant data. The Matrix rejected the connection.');
     } finally {
       setLoading(false);
     }
@@ -66,19 +86,20 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🌟 Star Wars Cantina Food Delivery API 🍽️</h1>
+        <h1>🔴 Matrix Code Restaurant Network 🍽️</h1>
+        <p>Welcome to the digital dining experience</p>
       </header>
       
       <main>
-        {loading && <LoadingSpinner />}
-        {error && <div className="error-message">❌ {error}</div>}
+        {loading && <MatrixLoader />}
+        {error && <div className="error-message">⚠️ {error}</div>}
         {success && <div className="success-message">✅ {success}</div>}
         
-        <OrderForm onAddFood={addFood} />
-        <FoodList foods={foods} />
+        <OrderForm onAddRestaurant={addRestaurant} />
+        <RestaurantList restaurants={restaurants} />
         
-        <button onClick={fetchFoods} className="refresh-btn">
-          🔄 Refresh Cantina Menu
+        <button onClick={fetchRestaurants} className="refresh-btn">
+          🔄 Reload Matrix Database
         </button>
       </main>
     </div>
