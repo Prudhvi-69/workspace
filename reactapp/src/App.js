@@ -1,97 +1,88 @@
 import React, { useState } from 'react';
-import CharacterList from './components/CharacterList';
-import SpecsCounter from './components/SpecsCounter';
-import BrandToggle from './components/BrandToggle';
+import StudioList from './components/StudioList';
+import GameCounter from './components/GameCounter';
+import PlatformToggle from './components/PlatformToggle';
 import './App.css';
 
 function App() {
-  const [characters, setCharacters] = useState([
-    { id: 1, name: 'Goku', anime: 'Dragon Ball', brand: 'Samsung', specs: '256GB, 12GB RAM', premium: true },
-    { id: 2, name: 'Luffy', anime: 'One Piece', brand: 'Apple', specs: '128GB, 8GB RAM', premium: false },
-    { id: 3, name: 'Ichigo', anime: 'Bleach', brand: 'Google', specs: '512GB, 16GB RAM', premium: true }
+  const [studios, setStudios] = useState([
+    { id: 1, name: 'Studio Ghibli', game: 'Spirited Away Mobile', platform: 'iOS', released: true },
+    { id: 2, name: 'Toei Animation', game: 'Dragon Ball Legends', platform: 'Android', released: false },
+    { id: 3, name: 'Madhouse', game: 'One Punch Man Fighter', platform: 'iOS', released: true }
   ]);
 
-  const [newCharacter, setNewCharacter] = useState('');
-  const [newAnime, setNewAnime] = useState('');
-  const [newBrand, setNewBrand] = useState('');
-  const [newSpecs, setNewSpecs] = useState('');
-  const [showPremiumOnly, setShowPremiumOnly] = useState(false);
+  const [newStudio, setNewStudio] = useState('');
+  const [newGame, setNewGame] = useState('');
+  const [newPlatform, setNewPlatform] = useState('');
+  const [showReleasedOnly, setShowReleasedOnly] = useState(false);
 
-  const addCharacter = (e) => {
+  const addStudio = (e) => {
     e.preventDefault();
-    if (newCharacter.trim() && newAnime.trim() && newBrand.trim() && newSpecs.trim()) {
-      const character = {
+    if (newStudio.trim() && newGame.trim() && newPlatform.trim()) {
+      const studio = {
         id: Date.now(),
-        name: newCharacter.trim(),
-        anime: newAnime.trim(),
-        brand: newBrand.trim(),
-        specs: newSpecs.trim(),
-        premium: false
+        name: newStudio.trim(),
+        game: newGame.trim(),
+        platform: newPlatform.trim(),
+        released: false
       };
-      setCharacters([...characters, character]);
-      setNewCharacter('');
-      setNewAnime('');
-      setNewBrand('');
-      setNewSpecs('');
+      setStudios([...studios, studio]);
+      setNewStudio('');
+      setNewGame('');
+      setNewPlatform('');
     }
   };
 
-  const togglePremium = (id) => {
-    setCharacters(characters.map(char =>
-      char.id === id ? { ...char, premium: !char.premium } : char
+  const toggleRelease = (id) => {
+    setStudios(studios.map(studio =>
+      studio.id === id ? { ...studio, released: !studio.released } : studio
     ));
   };
 
-  const filteredCharacters = showPremiumOnly 
-    ? characters.filter(char => char.premium)
-    : characters;
+  const filteredStudios = showReleasedOnly 
+    ? studios.filter(studio => studio.released)
+    : studios;
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🎭 Anime Character Phone Specs Tracker 📱</h1>
+        <h1>🎬 Anime Studio Mobile Game Tracker 🎮</h1>
       </header>
       
       <main>
-        <BrandToggle 
-          showPremiumOnly={showPremiumOnly}
-          onToggle={() => setShowPremiumOnly(!showPremiumOnly)}
+        <PlatformToggle 
+          showReleasedOnly={showReleasedOnly}
+          onToggle={() => setShowReleasedOnly(!showReleasedOnly)}
         />
 
-        <form onSubmit={addCharacter} className="add-form">
+        <form onSubmit={addStudio} className="add-form">
           <input
             type="text"
-            placeholder="Character name..."
-            value={newCharacter}
-            onChange={(e) => setNewCharacter(e.target.value)}
+            placeholder="Studio name..."
+            value={newStudio}
+            onChange={(e) => setNewStudio(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Anime series..."
-            value={newAnime}
-            onChange={(e) => setNewAnime(e.target.value)}
+            placeholder="Mobile game..."
+            value={newGame}
+            onChange={(e) => setNewGame(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Phone brand..."
-            value={newBrand}
-            onChange={(e) => setNewBrand(e.target.value)}
+            placeholder="Platform (iOS/Android)..."
+            value={newPlatform}
+            onChange={(e) => setNewPlatform(e.target.value)}
           />
-          <input
-            type="text"
-            placeholder="Phone specs..."
-            value={newSpecs}
-            onChange={(e) => setNewSpecs(e.target.value)}
-          />
-          <button type="submit">Add Character</button>
+          <button type="submit">Add Studio Game</button>
         </form>
 
-        <CharacterList 
-          characterList={filteredCharacters}
-          onTogglePremium={togglePremium}
+        <StudioList 
+          studioList={filteredStudios}
+          onToggleRelease={toggleRelease}
         />
 
-        <SpecsCounter characterCount={characters.length} />
+        <GameCounter studioCount={studios.length} />
       </main>
     </div>
   );

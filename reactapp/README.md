@@ -1,28 +1,28 @@
-# 🎭 Anime Character Phone Specs Tracker 📱
+# 🎬 Anime Studio Mobile Game Tracker 🎮
 
-A React application for tracking anime characters and their preferred mobile phone specifications and brands.
+A React application for tracking anime studios and their mobile game development projects.
 
 ## Features Implemented
 
 ### React Concepts Covered:
-- **Dynamic Rendering**: Uses `map()` to render character database
+- **Dynamic Rendering**: Uses `map()` to render studio game database
 - **Conditional Rendering**: Uses `&&` operator and ternary operators
-- **useState Hook**: Manages character collection and form inputs
-- **Class Components**: SpecsCounter uses `this.state` and `setState`
+- **useState Hook**: Manages studio collection and form inputs
+- **Class Components**: GameCounter uses `this.state` and `setState`
 - **Event Handling**: onClick, onChange, and onSubmit events
 
 ### App Functionality:
-- Add anime characters with phone brand and specifications
-- Toggle premium status for each character
-- Filter to show only premium phone users
-- Spec view counter with analytics (class component)
+- Add anime studios with their mobile game projects
+- Toggle release status for each game
+- Filter to show only released games
+- Game download counter with analytics (class component)
 - Empty state handling for filtered results
 
 ## Components Structure:
 - `App.js` - Main component with useState hooks
-- `CharacterList.js` - Displays characters using map() and conditional rendering
-- `SpecsCounter.js` - Class component with state management
-- `BrandToggle.js` - Toggle component with ternary operators
+- `StudioList.js` - Displays studios using map() and conditional rendering
+- `GameCounter.js` - Class component with state management
+- `PlatformToggle.js` - Toggle component with ternary operators
 
 ## Running the App:
 ```bash

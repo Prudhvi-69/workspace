@@ -1,128 +1,132 @@
 .App {
   text-align: center;
-  max-width: 900px;
+  max-width: 950px;
   margin: 0 auto;
   padding: 20px;
 }
 
 .App-header {
-  background-color: #1a1a2e;
-  padding: 25px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 30px;
   color: white;
-  border-radius: 12px;
-  margin-bottom: 25px;
+  border-radius: 15px;
+  margin-bottom: 30px;
 }
 
 .add-form {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 12px;
-  margin: 25px 0;
-  padding: 20px;
-  background-color: #f8f9fa;
-  border-radius: 10px;
+  display: flex;
+  gap: 15px;
+  margin: 30px 0;
+  padding: 25px;
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  border-radius: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .add-form input {
-  padding: 12px;
-  border: 2px solid #e9ecef;
-  border-radius: 6px;
+  padding: 14px;
+  border: 2px solid #fff;
+  border-radius: 8px;
   font-size: 16px;
+  min-width: 180px;
 }
 
 .add-form button {
-  padding: 12px 24px;
-  background-color: #6f42c1;
+  padding: 14px 28px;
+  background-color: #4ecdc4;
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 16px;
-  grid-column: span 2;
+  font-weight: bold;
 }
 
 .add-form button:hover {
-  background-color: #5a2d91;
+  background-color: #26d0ce;
 }
 
-.character-list {
-  margin: 25px 0;
+.studio-list {
+  margin: 30px 0;
 }
 
-.character-item {
-  display: grid;
-  grid-template-columns: 1fr auto;
+.studio-item {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  margin: 15px 0;
-  border: 2px solid #dee2e6;
-  border-radius: 10px;
-  background-color: #ffffff;
+  padding: 25px;
+  margin: 18px 0;
+  border: 3px solid #e1e8ed;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
 }
 
-.character-item.premium {
-  background-color: #fff3cd;
-  border-color: #ffc107;
+.studio-item.released {
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  border-color: #4ecdc4;
 }
 
-.character-info {
+.studio-info {
   text-align: left;
 }
 
-.character-name {
+.studio-name {
   font-weight: bold;
-  font-size: 20px;
-  color: #495057;
+  font-size: 22px;
+  color: #2c3e50;
   margin-bottom: 8px;
 }
 
-.anime-series {
-  color: #6c757d;
+.game-name {
+  color: #e74c3c;
   font-size: 16px;
   margin-bottom: 5px;
 }
 
-.phone-details {
-  color: #28a745;
+.platform-info {
+  color: #8e44ad;
   font-size: 14px;
+  font-weight: bold;
 }
 
-.premium-button {
-  padding: 10px 18px;
+.release-button {
+  padding: 12px 20px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: bold;
 }
 
-.premium-button.premium {
-  background-color: #ffc107;
-  color: #212529;
+.release-button.released {
+  background-color: #27ae60;
+  color: white;
 }
 
-.premium-button.standard {
-  background-color: #6c757d;
+.release-button.unreleased {
+  background-color: #e67e22;
   color: white;
 }
 
 .toggle-section {
-  margin: 25px 0;
-  padding: 18px;
-  background-color: #e7f3ff;
-  border-radius: 10px;
+  margin: 30px 0;
+  padding: 20px;
+  background: linear-gradient(135deg, #ffeaa7 0%, #fab1a0 100%);
+  border-radius: 12px;
 }
 
 .counter-section {
-  margin: 25px 0;
-  padding: 25px;
-  background-color: #d1ecf1;
-  border-radius: 10px;
-  border: 2px solid #17a2b8;
+  margin: 30px 0;
+  padding: 30px;
+  background: linear-gradient(135deg, #fd79a8 0%, #fdcb6e 100%);
+  border-radius: 12px;
+  border: 3px solid #e84393;
 }
 
-.no-characters {
-  padding: 50px;
-  color: #6c757d;
+.no-studios {
+  padding: 60px;
+  color: #7f8c8d;
   font-style: italic;
-  font-size: 20px;
+  font-size: 22px;
 }
