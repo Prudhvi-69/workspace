@@ -1,99 +1,98 @@
 import React, { useState } from 'react';
-import MerchList from './components/MerchList';
-import StoreCounter from './components/StoreCounter';
-import StockToggle from './components/StockToggle';
+import ConventionList from './components/ConventionList';
+import AppCounter from './components/AppCounter';
+import EventToggle from './components/EventToggle';
 import './App.css';
 
 function App() {
-  const [merchandise, setMerchandise] = useState([
-    { id: 1, item: 'Naruto Phone Case', anime: 'Naruto', store: 'Mobile Plaza', price: 25, inStock: true },
-    { id: 2, item: 'One Piece Charger', anime: 'One Piece', store: 'Phone World', price: 15, inStock: false },
-    { id: 3, item: 'Attack on Titan Earbuds', anime: 'Attack on Titan', store: 'Tech Anime', price: 45, inStock: true }
+  const [conventions, setConventions] = useState([
+    { id: 1, name: 'Anime Expo', location: 'Los Angeles', app: 'AX Mobile Guide', downloads: 15000, featured: true },
+    { id: 2, name: 'Comic-Con', location: 'San Diego', app: 'Con Mobile Hub', downloads: 8500, featured: false },
+    { id: 3, name: 'Otakon', location: 'Washington DC', app: 'Otakon Connect', downloads: 12000, featured: true }
   ]);
 
-  const [newItem, setNewItem] = useState('');
-  const [newAnime, setNewAnime] = useState('');
-  const [newStore, setNewStore] = useState('');
-  const [newPrice, setNewPrice] = useState('');
-  const [showInStockOnly, setShowInStockOnly] = useState(false);
+  const [newConvention, setNewConvention] = useState('');
+  const [newLocation, setNewLocation] = useState('');
+  const [newApp, setNewApp] = useState('');
+  const [newDownloads, setNewDownloads] = useState('');
+  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
 
-  const addMerchandise = (e) => {
+  const addConvention = (e) => {
     e.preventDefault();
-    if (newItem.trim() && newAnime.trim() && newStore.trim() && newPrice.trim()) {
-      const merch = {
+    if (newConvention.trim() && newLocation.trim() && newApp.trim() && newDownloads.trim()) {
+      const convention = {
         id: Date.now(),
-        item: newItem.trim(),
-        anime: newAnime.trim(),
-        store: newStore.trim(),
-        price: parseFloat(newPrice),
-        inStock: false
+        name: newConvention.trim(),
+        location: newLocation.trim(),
+        app: newApp.trim(),
+        downloads: parseInt(newDownloads),
+        featured: false
       };
-      setMerchandise([...merchandise, merch]);
-      setNewItem('');
-      setNewAnime('');
-      setNewStore('');
-      setNewPrice('');
+      setConventions([...conventions, convention]);
+      setNewConvention('');
+      setNewLocation('');
+      setNewApp('');
+      setNewDownloads('');
     }
   };
 
-  const toggleStock = (id) => {
-    setMerchandise(merchandise.map(merch =>
-      merch.id === id ? { ...merch, inStock: !merch.inStock } : merch
+  const toggleFeatured = (id) => {
+    setConventions(conventions.map(conv =>
+      conv.id === id ? { ...conv, featured: !conv.featured } : conv
     ));
   };
 
-  const filteredMerchandise = showInStockOnly 
-    ? merchandise.filter(merch => merch.inStock)
-    : merchandise;
+  const filteredConventions = showFeaturedOnly 
+    ? conventions.filter(conv => conv.featured)
+    : conventions;
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🛍️ Anime Merchandise Mobile Store Tracker 📱</h1>
+        <h1>🎪 Anime Convention Mobile App Showcase Tracker 📱</h1>
       </header>
       
       <main>
-        <StockToggle 
-          showInStockOnly={showInStockOnly}
-          onToggle={() => setShowInStockOnly(!showInStockOnly)}
+        <EventToggle 
+          showFeaturedOnly={showFeaturedOnly}
+          onToggle={() => setShowFeaturedOnly(!showFeaturedOnly)}
         />
 
-        <form onSubmit={addMerchandise} className="add-form">
+        <form onSubmit={addConvention} className="add-form">
           <input
             type="text"
-            placeholder="Merchandise item..."
-            value={newItem}
-            onChange={(e) => setNewItem(e.target.value)}
+            placeholder="Convention name..."
+            value={newConvention}
+            onChange={(e) => setNewConvention(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Anime series..."
-            value={newAnime}
-            onChange={(e) => setNewAnime(e.target.value)}
+            placeholder="Location..."
+            value={newLocation}
+            onChange={(e) => setNewLocation(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Mobile store..."
-            value={newStore}
-            onChange={(e) => setNewStore(e.target.value)}
+            placeholder="Mobile app name..."
+            value={newApp}
+            onChange={(e) => setNewApp(e.target.value)}
           />
           <input
             type="number"
-            placeholder="Price ($)..."
+            placeholder="Downloads count..."
             min="0"
-            step="0.01"
-            value={newPrice}
-            onChange={(e) => setNewPrice(e.target.value)}
+            value={newDownloads}
+            onChange={(e) => setNewDownloads(e.target.value)}
           />
-          <button type="submit">Add Merchandise</button>
+          <button type="submit">Add Convention</button>
         </form>
 
-        <MerchList 
-          merchList={filteredMerchandise}
-          onToggleStock={toggleStock}
+        <ConventionList 
+          conventionList={filteredConventions}
+          onToggleFeatured={toggleFeatured}
         />
 
-        <StoreCounter merchCount={merchandise.length} />
+        <AppCounter conventionCount={conventions.length} />
       </main>
     </div>
   );
