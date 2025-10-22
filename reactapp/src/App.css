@@ -1,0 +1,118 @@
+.App {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.App-header {
+  background-color: #282c34;
+  padding: 20px;
+  color: white;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.add-form {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.add-form input {
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.add-form button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-form button:hover {
+  background-color: #0056b3;
+}
+
+.anime-list {
+  margin: 20px 0;
+}
+
+.anime-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  margin: 10px 0;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.anime-item.watched {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.anime-info {
+  text-align: left;
+}
+
+.anime-name {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.mobile-name {
+  color: #666;
+  font-size: 14px;
+}
+
+.watch-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.watch-button.watched {
+  background-color: #28a745;
+  color: white;
+}
+
+.watch-button.not-watched {
+  background-color: #6c757d;
+  color: white;
+}
+
+.toggle-section {
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+}
+
+.counter-section {
+  margin: 20px 0;
+  padding: 20px;
+  background-color: #fff3cd;
+  border-radius: 8px;
+  border: 2px solid #ffc107;
+}
+
+.no-anime {
+  padding: 40px;
+  color: #666;
+  font-style: italic;
+  font-size: 18px;
+}
