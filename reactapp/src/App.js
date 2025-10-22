@@ -1,99 +1,99 @@
 import React, { useState } from 'react';
-import ActorList from './components/ActorList';
-import ReviewCounter from './components/ReviewCounter';
-import RatingToggle from './components/RatingToggle';
+import MerchList from './components/MerchList';
+import StoreCounter from './components/StoreCounter';
+import StockToggle from './components/StockToggle';
 import './App.css';
 
 function App() {
-  const [actors, setActors] = useState([
-    { id: 1, name: 'Masako Nozawa', character: 'Goku', phone: 'iPhone 15 Pro', rating: 5, verified: true },
-    { id: 2, name: 'Mayumi Tanaka', character: 'Luffy', phone: 'Samsung Galaxy S24', rating: 3, verified: false },
-    { id: 3, name: 'Noriaki Sugiyama', character: 'Sasuke', phone: 'Google Pixel 8', rating: 4, verified: true }
+  const [merchandise, setMerchandise] = useState([
+    { id: 1, item: 'Naruto Phone Case', anime: 'Naruto', store: 'Mobile Plaza', price: 25, inStock: true },
+    { id: 2, item: 'One Piece Charger', anime: 'One Piece', store: 'Phone World', price: 15, inStock: false },
+    { id: 3, item: 'Attack on Titan Earbuds', anime: 'Attack on Titan', store: 'Tech Anime', price: 45, inStock: true }
   ]);
 
-  const [newActor, setNewActor] = useState('');
-  const [newCharacter, setNewCharacter] = useState('');
-  const [newPhone, setNewPhone] = useState('');
-  const [newRating, setNewRating] = useState('');
-  const [showVerifiedOnly, setShowVerifiedOnly] = useState(false);
+  const [newItem, setNewItem] = useState('');
+  const [newAnime, setNewAnime] = useState('');
+  const [newStore, setNewStore] = useState('');
+  const [newPrice, setNewPrice] = useState('');
+  const [showInStockOnly, setShowInStockOnly] = useState(false);
 
-  const addActor = (e) => {
+  const addMerchandise = (e) => {
     e.preventDefault();
-    if (newActor.trim() && newCharacter.trim() && newPhone.trim() && newRating.trim()) {
-      const actor = {
+    if (newItem.trim() && newAnime.trim() && newStore.trim() && newPrice.trim()) {
+      const merch = {
         id: Date.now(),
-        name: newActor.trim(),
-        character: newCharacter.trim(),
-        phone: newPhone.trim(),
-        rating: parseInt(newRating),
-        verified: false
+        item: newItem.trim(),
+        anime: newAnime.trim(),
+        store: newStore.trim(),
+        price: parseFloat(newPrice),
+        inStock: false
       };
-      setActors([...actors, actor]);
-      setNewActor('');
-      setNewCharacter('');
-      setNewPhone('');
-      setNewRating('');
+      setMerchandise([...merchandise, merch]);
+      setNewItem('');
+      setNewAnime('');
+      setNewStore('');
+      setNewPrice('');
     }
   };
 
-  const toggleVerified = (id) => {
-    setActors(actors.map(actor =>
-      actor.id === id ? { ...actor, verified: !actor.verified } : actor
+  const toggleStock = (id) => {
+    setMerchandise(merchandise.map(merch =>
+      merch.id === id ? { ...merch, inStock: !merch.inStock } : merch
     ));
   };
 
-  const filteredActors = showVerifiedOnly 
-    ? actors.filter(actor => actor.verified)
-    : actors;
+  const filteredMerchandise = showInStockOnly 
+    ? merchandise.filter(merch => merch.inStock)
+    : merchandise;
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🎤 Anime Voice Actor Phone Review Tracker 📱</h1>
+        <h1>🛍️ Anime Merchandise Mobile Store Tracker 📱</h1>
       </header>
       
       <main>
-        <RatingToggle 
-          showVerifiedOnly={showVerifiedOnly}
-          onToggle={() => setShowVerifiedOnly(!showVerifiedOnly)}
+        <StockToggle 
+          showInStockOnly={showInStockOnly}
+          onToggle={() => setShowInStockOnly(!showInStockOnly)}
         />
 
-        <form onSubmit={addActor} className="add-form">
+        <form onSubmit={addMerchandise} className="add-form">
           <input
             type="text"
-            placeholder="Voice actor name..."
-            value={newActor}
-            onChange={(e) => setNewActor(e.target.value)}
+            placeholder="Merchandise item..."
+            value={newItem}
+            onChange={(e) => setNewItem(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Character voiced..."
-            value={newCharacter}
-            onChange={(e) => setNewCharacter(e.target.value)}
+            placeholder="Anime series..."
+            value={newAnime}
+            onChange={(e) => setNewAnime(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Phone model..."
-            value={newPhone}
-            onChange={(e) => setNewPhone(e.target.value)}
+            placeholder="Mobile store..."
+            value={newStore}
+            onChange={(e) => setNewStore(e.target.value)}
           />
           <input
             type="number"
-            placeholder="Rating (1-5)..."
-            min="1"
-            max="5"
-            value={newRating}
-            onChange={(e) => setNewRating(e.target.value)}
+            placeholder="Price ($)..."
+            min="0"
+            step="0.01"
+            value={newPrice}
+            onChange={(e) => setNewPrice(e.target.value)}
           />
-          <button type="submit">Add Review</button>
+          <button type="submit">Add Merchandise</button>
         </form>
 
-        <ActorList 
-          actorList={filteredActors}
-          onToggleVerified={toggleVerified}
+        <MerchList 
+          merchList={filteredMerchandise}
+          onToggleStock={toggleStock}
         />
 
-        <ReviewCounter actorCount={actors.length} />
+        <StoreCounter merchCount={merchandise.length} />
       </main>
     </div>
   );

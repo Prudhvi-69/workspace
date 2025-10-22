@@ -1,29 +1,29 @@
-# 🎤 Anime Voice Actor Phone Review Tracker 📱
+# 🛍️ Anime Merchandise Mobile Store Tracker 📱
 
-A React application for tracking anime voice actors and their mobile phone reviews with ratings.
+A React application for tracking anime merchandise availability in mobile stores with pricing.
 
 ## Features Implemented
 
 ### React Concepts Covered:
-- **Dynamic Rendering**: Uses `map()` to render voice actor review database
+- **Dynamic Rendering**: Uses `map()` to render merchandise inventory
 - **Conditional Rendering**: Uses `&&` operator and ternary operators
-- **useState Hook**: Manages actor collection and form inputs
-- **Class Components**: ReviewCounter uses `this.state` and `setState`
+- **useState Hook**: Manages merchandise collection and form inputs
+- **Class Components**: StoreCounter uses `this.state` and `setState`
 - **Event Handling**: onClick, onChange, and onSubmit events
 
 ### App Functionality:
-- Add voice actors with character, phone model, and ratings
-- Toggle verification status for each review
-- Filter to show only verified reviews
-- Review like counter with metrics (class component)
-- Star rating display system
+- Add anime merchandise with series, store, and pricing
+- Toggle stock status for each item (In Stock/Out of Stock)
+- Filter to show only in-stock merchandise
+- Purchase counter with store analytics (class component)
+- Price display with currency formatting
 - Empty state handling for filtered results
 
 ## Components Structure:
 - `App.js` - Main component with useState hooks
-- `ActorList.js` - Displays actors using map() and conditional rendering
-- `ReviewCounter.js` - Class component with state management
-- `RatingToggle.js` - Toggle component with ternary operators
+- `MerchList.js` - Displays merchandise using map() and conditional rendering
+- `StoreCounter.js` - Class component with state management
+- `StockToggle.js` - Toggle component with ternary operators
 
 ## Running the App:
 ```bash
