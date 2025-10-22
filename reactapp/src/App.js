@@ -1,79 +1,97 @@
 import React, { useState } from 'react';
-import AnimeList from './components/AnimeList';
-import MobileCounter from './components/MobileCounter';
-import AnimeToggle from './components/AnimeToggle';
+import CharacterList from './components/CharacterList';
+import SpecsCounter from './components/SpecsCounter';
+import BrandToggle from './components/BrandToggle';
 import './App.css';
 
 function App() {
-  const [animeCollection, setAnimeCollection] = useState([
-    { id: 1, name: 'Naruto', phone: 'iPhone 14', watched: true },
-    { id: 2, name: 'One Piece', phone: 'Samsung Galaxy S23', watched: false },
-    { id: 3, name: 'Attack on Titan', phone: 'Google Pixel 7', watched: true }
+  const [characters, setCharacters] = useState([
+    { id: 1, name: 'Goku', anime: 'Dragon Ball', brand: 'Samsung', specs: '256GB, 12GB RAM', premium: true },
+    { id: 2, name: 'Luffy', anime: 'One Piece', brand: 'Apple', specs: '128GB, 8GB RAM', premium: false },
+    { id: 3, name: 'Ichigo', anime: 'Bleach', brand: 'Google', specs: '512GB, 16GB RAM', premium: true }
   ]);
 
-  const [newAnimeName, setNewAnimeName] = useState('');
-  const [newPhoneName, setNewPhoneName] = useState('');
-  const [showWatchedOnly, setShowWatchedOnly] = useState(false);
+  const [newCharacter, setNewCharacter] = useState('');
+  const [newAnime, setNewAnime] = useState('');
+  const [newBrand, setNewBrand] = useState('');
+  const [newSpecs, setNewSpecs] = useState('');
+  const [showPremiumOnly, setShowPremiumOnly] = useState(false);
 
-  const addAnime = (e) => {
+  const addCharacter = (e) => {
     e.preventDefault();
-    if (newAnimeName.trim() && newPhoneName.trim()) {
-      const newAnime = {
+    if (newCharacter.trim() && newAnime.trim() && newBrand.trim() && newSpecs.trim()) {
+      const character = {
         id: Date.now(),
-        name: newAnimeName.trim(),
-        phone: newPhoneName.trim(),
-        watched: false
+        name: newCharacter.trim(),
+        anime: newAnime.trim(),
+        brand: newBrand.trim(),
+        specs: newSpecs.trim(),
+        premium: false
       };
-      setAnimeCollection([...animeCollection, newAnime]);
-      setNewAnimeName('');
-      setNewPhoneName('');
+      setCharacters([...characters, character]);
+      setNewCharacter('');
+      setNewAnime('');
+      setNewBrand('');
+      setNewSpecs('');
     }
   };
 
-  const toggleWatched = (id) => {
-    setAnimeCollection(animeCollection.map(anime =>
-      anime.id === id ? { ...anime, watched: !anime.watched } : anime
+  const togglePremium = (id) => {
+    setCharacters(characters.map(char =>
+      char.id === id ? { ...char, premium: !char.premium } : char
     ));
   };
 
-  const filteredAnime = showWatchedOnly 
-    ? animeCollection.filter(anime => anime.watched)
-    : animeCollection;
+  const filteredCharacters = showPremiumOnly 
+    ? characters.filter(char => char.premium)
+    : characters;
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🎌 Anime Mobile Collection Manager 📱</h1>
+        <h1>🎭 Anime Character Phone Specs Tracker 📱</h1>
       </header>
       
       <main>
-        <AnimeToggle 
-          showWatchedOnly={showWatchedOnly}
-          onToggle={() => setShowWatchedOnly(!showWatchedOnly)}
+        <BrandToggle 
+          showPremiumOnly={showPremiumOnly}
+          onToggle={() => setShowPremiumOnly(!showPremiumOnly)}
         />
 
-        <form onSubmit={addAnime} className="add-form">
+        <form onSubmit={addCharacter} className="add-form">
           <input
             type="text"
-            placeholder="Anime name..."
-            value={newAnimeName}
-            onChange={(e) => setNewAnimeName(e.target.value)}
+            placeholder="Character name..."
+            value={newCharacter}
+            onChange={(e) => setNewCharacter(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Mobile phone..."
-            value={newPhoneName}
-            onChange={(e) => setNewPhoneName(e.target.value)}
+            placeholder="Anime series..."
+            value={newAnime}
+            onChange={(e) => setNewAnime(e.target.value)}
           />
-          <button type="submit">Add to Collection</button>
+          <input
+            type="text"
+            placeholder="Phone brand..."
+            value={newBrand}
+            onChange={(e) => setNewBrand(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Phone specs..."
+            value={newSpecs}
+            onChange={(e) => setNewSpecs(e.target.value)}
+          />
+          <button type="submit">Add Character</button>
         </form>
 
-        <AnimeList 
-          animeList={filteredAnime}
-          onToggleWatched={toggleWatched}
+        <CharacterList 
+          characterList={filteredCharacters}
+          onTogglePremium={togglePremium}
         />
 
-        <MobileCounter animeCount={animeCollection.length} />
+        <SpecsCounter characterCount={characters.length} />
       </main>
     </div>
   );

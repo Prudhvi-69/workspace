@@ -3,65 +3,70 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import App from '../../reactapp/src/App';
 
-// Test Case 1: Dynamic rendering with map() and initial data
-test('renders anime list using map function with initial data', () => {
+// Test Case 1: Dynamic rendering with map() function
+test('renders character list using map function with initial data', () => {
   render(<App />);
-  expect(screen.getByText('Naruto')).toBeInTheDocument();
-  expect(screen.getByText('📱 iPhone 14')).toBeInTheDocument();
-  expect(screen.getByText('One Piece')).toBeInTheDocument();
+  expect(screen.getByText('Goku')).toBeInTheDocument();
+  expect(screen.getByText('📺 Dragon Ball')).toBeInTheDocument();
+  expect(screen.getByText('📱 Samsung - 256GB, 12GB RAM')).toBeInTheDocument();
 });
 
-// Test Case 2: Conditional rendering with && operator (empty state)
-test('shows no anime message when filtered list is empty', () => {
+// Test Case 2: Conditional rendering with && operator for empty state
+test('shows no characters message when database is empty', () => {
   render(<App />);
   const filterCheckbox = screen.getByRole('checkbox');
   fireEvent.click(filterCheckbox);
-  const watchedButtons = screen.getAllByText('✅ Watched');
-  watchedButtons.forEach(button => fireEvent.click(button));
-  expect(screen.getByText('No anime found in collection 😢')).toBeInTheDocument();
+  const premiumButtons = screen.getAllByText('⭐ Premium');
+  premiumButtons.forEach(button => fireEvent.click(button));
+  expect(screen.getByText('No characters found in database 🔍')).toBeInTheDocument();
 });
 
-// Test Case 3: useState Hook - adding new anime
-test('useState manages anime collection state when adding new item', () => {
+// Test Case 3: useState Hook manages character collection state
+test('useState adds new character to database when form submitted', () => {
   render(<App />);
-  const animeInput = screen.getByPlaceholderText('Anime name...');
-  const phoneInput = screen.getByPlaceholderText('Mobile phone...');
-  const addButton = screen.getByText('Add to Collection');
+  const nameInput = screen.getByPlaceholderText('Character name...');
+  const animeInput = screen.getByPlaceholderText('Anime series...');
+  const brandInput = screen.getByPlaceholderText('Phone brand...');
+  const specsInput = screen.getByPlaceholderText('Phone specs...');
+  const addButton = screen.getByText('Add Character');
   
+  fireEvent.change(nameInput, { target: { value: 'Vegeta' } });
   fireEvent.change(animeInput, { target: { value: 'Dragon Ball Z' } });
-  fireEvent.change(phoneInput, { target: { value: 'OnePlus 11' } });
+  fireEvent.change(brandInput, { target: { value: 'OnePlus' } });
+  fireEvent.change(specsInput, { target: { value: '1TB, 24GB RAM' } });
   fireEvent.click(addButton);
   
-  expect(screen.getByText('Dragon Ball Z')).toBeInTheDocument();
+  expect(screen.getByText('Vegeta')).toBeInTheDocument();
 });
 
-// Test Case 4: Class component state (this.state, setState)
-test('class component counter increments using setState', () => {
+// Test Case 4: Class component state management with this.state and setState
+test('class component spec counter increments using setState', () => {
   render(<App />);
-  const counterButton = screen.getByText(/Count Mobile Taps/);
-  fireEvent.click(counterButton);
-  fireEvent.click(counterButton);
-  expect(screen.getByText('Counter Clicks: 2')).toBeInTheDocument();
+  const specButton = screen.getByText(/View Specs/);
+  fireEvent.click(specButton);
+  fireEvent.click(specButton);
+  fireEvent.click(specButton);
+  expect(screen.getByText('Spec Views: 3')).toBeInTheDocument();
 });
 
-// Test Case 5: Event handling (onClick, onChange)
-test('event handlers work for onClick and onChange events', () => {
+// Test Case 5: Event handling for onClick and onChange events
+test('event handlers work correctly for user interactions', () => {
   render(<App />);
-  const watchButton = screen.getAllByText('⏳ Not Watched')[0];
-  fireEvent.click(watchButton);
-  expect(screen.getByText('✅ Watched')).toBeInTheDocument();
+  const premiumButton = screen.getAllByText('📱 Standard')[0];
+  fireEvent.click(premiumButton);
+  expect(screen.getByText('⭐ Premium')).toBeInTheDocument();
   
-  const animeInput = screen.getByPlaceholderText('Anime name...');
-  fireEvent.change(animeInput, { target: { value: 'Test Anime' } });
-  expect(animeInput.value).toBe('Test Anime');
+  const nameInput = screen.getByPlaceholderText('Character name...');
+  fireEvent.change(nameInput, { target: { value: 'Sasuke' } });
+  expect(nameInput.value).toBe('Sasuke');
 });
 
-// Test Case 6: Ternary operator conditional rendering
-test('ternary operator shows different text based on toggle state', () => {
+// Test Case 6: Ternary operator conditional rendering in toggle
+test('ternary operator displays different text based on filter state', () => {
   render(<App />);
-  expect(screen.getByText('📋 Showing all anime')).toBeInTheDocument();
+  expect(screen.getByText('📋 Showing all characters')).toBeInTheDocument();
   
   const filterCheckbox = screen.getByRole('checkbox');
   fireEvent.click(filterCheckbox);
-  expect(screen.getByText('📺 Showing watched anime only')).toBeInTheDocument();
+  expect(screen.getByText('⭐ Showing premium users only')).toBeInTheDocument();
 });

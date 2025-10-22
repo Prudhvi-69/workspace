@@ -1,28 +1,28 @@
-# 🎌 Anime Mobile Collection Manager 📱
+# 🎭 Anime Character Phone Specs Tracker 📱
 
-A React application that demonstrates core React concepts through an anime and mobile phone collection manager.
+A React application for tracking anime characters and their preferred mobile phone specifications and brands.
 
 ## Features Implemented
 
 ### React Concepts Covered:
-- **Dynamic Rendering**: Uses `map()` to render anime lists
+- **Dynamic Rendering**: Uses `map()` to render character database
 - **Conditional Rendering**: Uses `&&` operator and ternary operators
-- **useState Hook**: Manages collection, form inputs, and filter state
-- **Class Components**: MobileCounter uses `this.state` and `setState`
+- **useState Hook**: Manages character collection and form inputs
+- **Class Components**: SpecsCounter uses `this.state` and `setState`
 - **Event Handling**: onClick, onChange, and onSubmit events
 
 ### App Functionality:
-- Add anime with associated mobile phones to collection
-- Toggle watched status for each anime
-- Filter to show only watched anime
-- Counter with click tracking (class component)
-- Empty state handling with conditional messages
+- Add anime characters with phone brand and specifications
+- Toggle premium status for each character
+- Filter to show only premium phone users
+- Spec view counter with analytics (class component)
+- Empty state handling for filtered results
 
 ## Components Structure:
 - `App.js` - Main component with useState hooks
-- `AnimeList.js` - Displays list using map() and conditional rendering
-- `MobileCounter.js` - Class component with state management
-- `AnimeToggle.js` - Toggle component with ternary operators
+- `CharacterList.js` - Displays characters using map() and conditional rendering
+- `SpecsCounter.js` - Class component with state management
+- `BrandToggle.js` - Toggle component with ternary operators
 
 ## Running the App:
 ```bash
@@ -37,10 +37,4 @@ npm test
 ```
 
 ## Test Coverage:
-6 comprehensive test files covering:
-1. Main App functionality
-2. AnimeList component rendering
-3. MobileCounter class component state
-4. AnimeToggle conditional rendering
-5. Event handling (onClick, onChange, onSubmit)
-6. useState hook state management
+6 comprehensive test cases covering all React concepts and functionality.
