@@ -3,20 +3,20 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background: linear-gradient(135deg, #1a1a1a, #2c2c2c, #0f0f23);
+  background: linear-gradient(135deg, #ff6b35, #f7931e, #ffd23f);
   min-height: 100vh;
-  color: #ffffff;
+  color: #2c3e50;
 }
 
 .App-header {
-  background: linear-gradient(135deg, #8e44ad, #2c3e50, #e74c3c);
+  background: linear-gradient(135deg, #e74c3c, #c0392b, #8e44ad);
   padding: 50px;
   color: white;
   border-radius: 25px;
   margin-bottom: 50px;
-  box-shadow: 0 15px 35px rgba(142,68,173,0.4);
-  border: 3px solid #8e44ad;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+  box-shadow: 0 15px 35px rgba(231,76,60,0.4);
+  border: 3px solid #e74c3c;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .App-header p {
@@ -26,14 +26,14 @@
 }
 
 .error-message {
-  background: linear-gradient(135deg, #8e44ad, #9b59b6);
+  background: linear-gradient(135deg, #e74c3c, #c0392b);
   color: white;
   padding: 20px;
   border-radius: 15px;
   margin: 20px 0;
   font-size: 16px;
-  box-shadow: 0 8px 20px rgba(142,68,173,0.3);
-  border: 2px solid #8e44ad;
+  box-shadow: 0 8px 20px rgba(231,76,60,0.3);
+  border: 2px solid #c0392b;
 }
 
 .success-message {
@@ -47,44 +47,41 @@
   border: 2px solid #27ae60;
 }
 
-.dc-loader {
+.tamil-loader {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 40px;
 }
 
-.bat-signal {
-  width: 60px;
-  height: 60px;
-  background: linear-gradient(135deg, #f1c40f, #f39c12);
-  border-radius: 50%;
-  position: relative;
-  animation: batSignal 2s ease-in-out infinite;
+.music-notes {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
 }
 
-.bat-signal::before {
-  content: '🦇';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 24px;
-  color: #2c3e50;
+.note {
+  font-size: 30px;
+  animation: musicBounce 1.5s ease-in-out infinite;
 }
 
-@keyframes batSignal {
-  0%, 100% { box-shadow: 0 0 20px #f1c40f; }
-  50% { box-shadow: 0 0 40px #f39c12, 0 0 60px #f1c40f; }
+.note:nth-child(1) { animation-delay: 0s; }
+.note:nth-child(2) { animation-delay: 0.3s; }
+.note:nth-child(3) { animation-delay: 0.6s; }
+.note:nth-child(4) { animation-delay: 0.9s; }
+
+@keyframes musicBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-15px) scale(1.2); }
 }
 
-.villain-form {
-  background: linear-gradient(135deg, #2c3e50, #34495e);
+.song-form {
+  background: linear-gradient(135deg, #fff, #f8f9fa);
   padding: 40px;
   border-radius: 20px;
   margin: 40px 0;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.4);
-  border: 2px solid #8e44ad;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+  border: 3px solid #e74c3c;
 }
 
 .form-grid {
@@ -94,28 +91,22 @@
   margin-bottom: 30px;
 }
 
-.form-grid input, .form-grid select, .form-grid textarea {
+.form-grid input, .form-grid select {
   padding: 16px;
-  border: 2px solid #8e44ad;
+  border: 2px solid #e74c3c;
   border-radius: 12px;
   font-size: 16px;
-  background: rgba(44,62,80,0.8);
-  color: #ffffff;
+  background: white;
+  color: #2c3e50;
 }
 
-.form-grid textarea {
-  grid-column: span 2;
-  resize: vertical;
-  min-height: 80px;
-}
-
-.form-grid input::placeholder, .form-grid textarea::placeholder {
-  color: #bdc3c7;
+.form-grid input::placeholder {
+  color: #7f8c8d;
 }
 
 .submit-btn {
   padding: 16px 35px;
-  background: linear-gradient(45deg, #8e44ad, #9b59b6);
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
   color: white;
   border: none;
   border-radius: 12px;
@@ -127,80 +118,75 @@
 
 .submit-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(142,68,173,0.4);
+  box-shadow: 0 8px 25px rgba(231,76,60,0.4);
 }
 
-.villain-list {
+.song-list {
   margin: 50px 0;
 }
 
-.villain-grid {
+.song-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
   gap: 25px;
   margin-top: 30px;
 }
 
-.villain-item {
-  background: linear-gradient(135deg, #34495e, #2c3e50);
+.song-item {
+  background: linear-gradient(135deg, #fff, #f8f9fa);
   padding: 30px;
   border-radius: 18px;
-  border: 2px solid #8e44ad;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+  border: 3px solid #f39c12;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
   transition: all 0.3s ease;
   position: relative;
 }
 
-.villain-item:hover {
+.song-item:hover {
   transform: translateY(-5px);
-  box-shadow: 0 15px 35px rgba(142,68,173,0.3);
+  box-shadow: 0 15px 35px rgba(243,156,18,0.3);
 }
 
-.villain-item.captured {
-  border-color: #27ae60;
-  box-shadow: 0 10px 25px rgba(39,174,96,0.3);
-}
-
-.villain-item.free {
+.song-item.favorite {
   border-color: #e74c3c;
   box-shadow: 0 10px 25px rgba(231,76,60,0.3);
 }
 
-.villain-name {
+.song-title {
   font-size: 22px;
-  font-weight: bold;
-  color: #8e44ad;
-  margin-bottom: 15px;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-}
-
-.villain-real-name {
-  font-size: 16px;
-  color: #bdc3c7;
-  margin-bottom: 10px;
-}
-
-.villain-city {
-  font-size: 16px;
-  color: #f39c12;
-  margin-bottom: 10px;
-}
-
-.villain-threat {
-  font-size: 18px;
   font-weight: bold;
   color: #e74c3c;
   margin-bottom: 15px;
 }
 
-.villain-scheme {
-  font-size: 14px;
-  color: #95a5a6;
-  margin-bottom: 20px;
-  font-style: italic;
+.song-artist {
+  font-size: 16px;
+  color: #8e44ad;
+  margin-bottom: 10px;
 }
 
-.villain-controls {
+.song-movie {
+  font-size: 16px;
+  color: #2980b9;
+  margin-bottom: 10px;
+}
+
+.song-details {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 14px;
+  color: #7f8c8d;
+}
+
+.song-genre {
+  font-size: 14px;
+  color: #27ae60;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.song-controls {
   display: flex;
   gap: 10px;
   flex-wrap: wrap;
@@ -216,13 +202,13 @@
   transition: all 0.2s ease;
 }
 
-.capture-btn {
-  background: linear-gradient(45deg, #27ae60, #2ecc71);
+.favorite-btn {
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
   color: white;
 }
 
-.release-btn {
-  background: linear-gradient(45deg, #e74c3c, #c0392b);
+.unfavorite-btn {
+  background: linear-gradient(45deg, #95a5a6, #7f8c8d);
   color: white;
 }
 
@@ -231,24 +217,11 @@
   color: white;
 }
 
-.status-indicator {
+.favorite-indicator {
   position: absolute;
   top: 15px;
   right: 15px;
-  padding: 6px 12px;
-  border-radius: 15px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.captured-status {
-  background: linear-gradient(45deg, #27ae60, #2ecc71);
-  color: white;
-}
-
-.free-status {
-  background: linear-gradient(45deg, #e74c3c, #c0392b);
-  color: white;
+  font-size: 24px;
 }
 
 .refresh-btn {

@@ -1,122 +1,144 @@
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import axios from 'axios';
 import App from '../../reactapp/src/App';
 
-// Mock axios
-jest.mock('axios');
-const mockedAxios = axios;
+// Mock fetch
+global.fetch = jest.fn();
 
-// Test Case 1: Axios GET request - fetches and displays villain data
-test('fetches and displays DC villains using axios GET', async () => {
-  const mockData = {
-    data: [
-      { id: 1, name: 'Joker Chaos', email: 'gotham@arkham.dc', body: 'Evil scheme to destroy Gotham City' },
-      { id: 2, name: 'Lex Luthor', email: 'metropolis@dc.com', body: 'Plan to defeat Superman' }
-    ]
-  };
+// Test Case 1: Fetch API GET request - fetches and displays Tamil songs
+test('fetches and displays Tamil songs using fetch GET', async () => {
+  const mockData = [
+    { id: 1, title: 'Vennilave Melody', userId: 1 },
+    { id: 2, title: 'Kadhal Folk Song', userId: 2 }
+  ];
   
-  mockedAxios.get.mockResolvedValueOnce(mockData);
+  fetch.mockResolvedValueOnce({
+    ok: true,
+    json: async () => mockData
+  });
   
   render(<App />);
   
   await waitFor(() => {
-    expect(screen.getByText(/Joker Villain/)).toBeInTheDocument();
+    expect(screen.getByText(/Vennilave Paadal/)).toBeInTheDocument();
   });
 });
 
-// Test Case 2: Axios POST request - adds new villain
-test('adds new villain using axios POST request', async () => {
-  const mockGetData = { data: [] };
-  const mockPostData = { data: { id: 101 } };
+// Test Case 2: Fetch API POST request - adds new Tamil song
+test('adds new Tamil song using fetch POST request', async () => {
+  const mockGetData = [];
+  const mockPostData = { id: 101 };
   
-  mockedAxios.get.mockResolvedValueOnce(mockGetData);
-  mockedAxios.post.mockResolvedValueOnce(mockPostData);
+  fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockGetData
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockPostData
+    });
   
   render(<App />);
   
-  const nameInput = screen.getByPlaceholderText(/Villain name/);
-  const realNameInput = screen.getByPlaceholderText(/Real name/);
-  const cityInput = screen.getByPlaceholderText(/Operating city/);
-  const threatSelect = screen.getByDisplayValue('Low Threat');
-  const schemeTextarea = screen.getByPlaceholderText(/Criminal scheme/);
-  const submitButton = screen.getByText(/Add to Database/);
+  const titleInput = screen.getByPlaceholderText(/Song title/);
+  const artistInput = screen.getByPlaceholderText(/Artist name/);
+  const movieInput = screen.getByPlaceholderText(/Movie name/);
+  const yearInput = screen.getByPlaceholderText(/Release year/);
+  const durationInput = screen.getByPlaceholderText(/Duration/);
+  const genreSelect = screen.getByDisplayValue('');
+  const submitButton = screen.getByText(/Add to Library/);
   
-  fireEvent.change(nameInput, { target: { value: 'The Riddler' } });
-  fireEvent.change(realNameInput, { target: { value: 'Edward Nygma' } });
-  fireEvent.change(cityInput, { target: { value: 'Gotham' } });
-  fireEvent.change(threatSelect, { target: { value: '3' } });
-  fireEvent.change(schemeTextarea, { target: { value: 'Riddle-based crime spree' } });
+  fireEvent.change(titleInput, { target: { value: 'Munbe Vaa' } });
+  fireEvent.change(artistInput, { target: { value: 'A.R. Rahman' } });
+  fireEvent.change(movieInput, { target: { value: 'Sillunu Oru Kaadhal' } });
+  fireEvent.change(yearInput, { target: { value: '2006' } });
+  fireEvent.change(durationInput, { target: { value: '240' } });
+  fireEvent.change(genreSelect, { target: { value: 'Melody' } });
   fireEvent.click(submitButton);
   
   await waitFor(() => {
-    expect(screen.getByText('The Riddler')).toBeInTheDocument();
+    expect(screen.getByText('Munbe Vaa')).toBeInTheDocument();
   });
 });
 
-// Test Case 3: Axios PATCH request - updates villain status
-test('updates villain capture status using axios PATCH request', async () => {
-  const mockGetData = {
-    data: [{ id: 1, name: 'Penguin Crime', email: 'gotham@arkham.dc', body: 'Umbrella-based crimes' }]
-  };
+// Test Case 3: Fetch API PUT request - toggles favorite status
+test('toggles song favorite status using fetch PUT request', async () => {
+  const mockGetData = [
+    { id: 1, title: 'Kadhal Rojave', userId: 1 }
+  ];
   
-  mockedAxios.get.mockResolvedValueOnce(mockGetData);
-  mockedAxios.patch.mockResolvedValueOnce({});
+  fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockGetData
+    })
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ favorite: true })
+    });
   
   render(<App />);
   
   await waitFor(() => {
-    expect(screen.getByText(/Penguin Villain/)).toBeInTheDocument();
+    expect(screen.getByText(/Kadhal Paadal/)).toBeInTheDocument();
   });
   
-  const captureButton = screen.getByText('Capture');
-  fireEvent.click(captureButton);
+  const favoriteButton = screen.getByText(/Add ❤️/);
+  fireEvent.click(favoriteButton);
   
   await waitFor(() => {
-    expect(screen.getByText(/Villain captured/)).toBeInTheDocument();
+    expect(screen.getByText(/Favorite status updated/)).toBeInTheDocument();
   });
 });
 
-// Test Case 4: Axios DELETE request - removes villain
-test('deletes villain using axios DELETE request', async () => {
-  const mockGetData = {
-    data: [{ id: 1, name: 'Bane Destruction', email: 'gotham@arkham.dc', body: 'Break the Bat' }]
-  };
+// Test Case 4: Fetch API DELETE request - removes song
+test('deletes Tamil song using fetch DELETE request', async () => {
+  const mockGetData = [
+    { id: 1, title: 'Uyire Uyire', userId: 1 }
+  ];
   
-  mockedAxios.get.mockResolvedValueOnce(mockGetData);
-  mockedAxios.delete.mockResolvedValueOnce({});
+  fetch
+    .mockResolvedValueOnce({
+      ok: true,
+      json: async () => mockGetData
+    })
+    .mockResolvedValueOnce({
+      ok: true
+    });
   
   render(<App />);
   
   await waitFor(() => {
-    expect(screen.getByText(/Bane Villain/)).toBeInTheDocument();
+    expect(screen.getByText(/Uyire Paadal/)).toBeInTheDocument();
   });
   
-  const deleteButton = screen.getByText('Eliminate');
+  const deleteButton = screen.getByText(/Delete/);
   fireEvent.click(deleteButton);
   
   await waitFor(() => {
-    expect(screen.getByText(/Villain eliminated from database/)).toBeInTheDocument();
+    expect(screen.getByText(/பாடல் நீக்கப்பட்டது/)).toBeInTheDocument();
   });
 });
 
-// Test Case 5: Loading state with Bat-Signal animation
-test('displays DC loader during API requests', async () => {
-  mockedAxios.get.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
+// Test Case 5: Loading state with Tamil musical animation
+test('displays Tamil loader during API requests', async () => {
+  fetch.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
   
   render(<App />);
   
-  expect(screen.getByText(/Accessing Arkham database/)).toBeInTheDocument();
+  expect(screen.getByText(/Loading Tamil songs/)).toBeInTheDocument();
+  expect(screen.getByText(/பாடல்கள் ஏற்றப்படுகின்றன/)).toBeInTheDocument();
 });
 
 // Test Case 6: Error handling for failed requests
 test('handles and displays error when API request fails', async () => {
-  mockedAxios.get.mockRejectedValueOnce(new Error('Network Error'));
+  fetch.mockRejectedValueOnce(new Error('Network Error'));
   
   render(<App />);
   
   await waitFor(() => {
-    expect(screen.getByText(/Failed to access Arkham Asylum database/)).toBeInTheDocument();
+    expect(screen.getByText(/Failed to load Tamil songs/)).toBeInTheDocument();
   });
 });
