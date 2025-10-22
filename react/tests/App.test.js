@@ -4,68 +4,71 @@ import '@testing-library/jest-dom';
 import App from '../../reactapp/src/App';
 
 // Test Case 1: Dynamic rendering with map() function
-test('renders studio list using map function with initial data', () => {
+test('renders voice actor list using map function with initial data', () => {
   render(<App />);
-  expect(screen.getByText('Studio Ghibli')).toBeInTheDocument();
-  expect(screen.getByText('🎮 Spirited Away Mobile')).toBeInTheDocument();
-  expect(screen.getByText('📱 iOS')).toBeInTheDocument();
+  expect(screen.getByText('Masako Nozawa')).toBeInTheDocument();
+  expect(screen.getByText('🎭 Voices: Goku')).toBeInTheDocument();
+  expect(screen.getByText('📱 iPhone 15 Pro')).toBeInTheDocument();
 });
 
 // Test Case 2: Conditional rendering with && operator for empty state
-test('shows no studios message when database is empty', () => {
+test('shows no actors message when review database is empty', () => {
   render(<App />);
   const filterCheckbox = screen.getByRole('checkbox');
   fireEvent.click(filterCheckbox);
-  const releasedButtons = screen.getAllByText('✅ Released');
-  releasedButtons.forEach(button => fireEvent.click(button));
-  expect(screen.getByText('No studios found in database 🎮')).toBeInTheDocument();
+  const verifiedButtons = screen.getAllByText('✅ Verified');
+  verifiedButtons.forEach(button => fireEvent.click(button));
+  expect(screen.getByText('No voice actor reviews found 🎭')).toBeInTheDocument();
 });
 
-// Test Case 3: useState Hook manages studio collection state
-test('useState adds new studio game when form submitted', () => {
+// Test Case 3: useState Hook manages actor review collection state
+test('useState adds new voice actor review when form submitted', () => {
   render(<App />);
-  const studioInput = screen.getByPlaceholderText('Studio name...');
-  const gameInput = screen.getByPlaceholderText('Mobile game...');
-  const platformInput = screen.getByPlaceholderText('Platform (iOS/Android)...');
-  const addButton = screen.getByText('Add Studio Game');
+  const actorInput = screen.getByPlaceholderText('Voice actor name...');
+  const characterInput = screen.getByPlaceholderText('Character voiced...');
+  const phoneInput = screen.getByPlaceholderText('Phone model...');
+  const ratingInput = screen.getByPlaceholderText('Rating (1-5)...');
+  const addButton = screen.getByText('Add Review');
   
-  fireEvent.change(studioInput, { target: { value: 'Pierrot' } });
-  fireEvent.change(gameInput, { target: { value: 'Naruto Mobile' } });
-  fireEvent.change(platformInput, { target: { value: 'Android' } });
+  fireEvent.change(actorInput, { target: { value: 'Yuki Kaji' } });
+  fireEvent.change(characterInput, { target: { value: 'Eren Yeager' } });
+  fireEvent.change(phoneInput, { target: { value: 'OnePlus 12' } });
+  fireEvent.change(ratingInput, { target: { value: '4' } });
   fireEvent.click(addButton);
   
-  expect(screen.getByText('Pierrot')).toBeInTheDocument();
+  expect(screen.getByText('Yuki Kaji')).toBeInTheDocument();
 });
 
 // Test Case 4: Class component state management with this.state and setState
-test('class component download counter increments using setState', () => {
+test('class component review like counter increments using setState', () => {
   render(<App />);
-  const downloadButton = screen.getByText(/Download Game/);
-  fireEvent.click(downloadButton);
-  fireEvent.click(downloadButton);
-  fireEvent.click(downloadButton);
-  fireEvent.click(downloadButton);
-  expect(screen.getByText('Game Downloads: 4')).toBeInTheDocument();
+  const likeButton = screen.getByText(/Like Review/);
+  fireEvent.click(likeButton);
+  fireEvent.click(likeButton);
+  fireEvent.click(likeButton);
+  fireEvent.click(likeButton);
+  fireEvent.click(likeButton);
+  expect(screen.getByText('Review Likes: 5')).toBeInTheDocument();
 });
 
 // Test Case 5: Event handling for onClick and onChange events
 test('event handlers work correctly for user interactions', () => {
   render(<App />);
-  const releaseButton = screen.getAllByText('⏳ In Development')[0];
-  fireEvent.click(releaseButton);
-  expect(screen.getByText('✅ Released')).toBeInTheDocument();
+  const verifyButton = screen.getAllByText('⏳ Pending')[0];
+  fireEvent.click(verifyButton);
+  expect(screen.getByText('✅ Verified')).toBeInTheDocument();
   
-  const studioInput = screen.getByPlaceholderText('Studio name...');
-  fireEvent.change(studioInput, { target: { value: 'Bones' } });
-  expect(studioInput.value).toBe('Bones');
+  const actorInput = screen.getByPlaceholderText('Voice actor name...');
+  fireEvent.change(actorInput, { target: { value: 'Rie Kugimiya' } });
+  expect(actorInput.value).toBe('Rie Kugimiya');
 });
 
 // Test Case 6: Ternary operator conditional rendering in toggle
 test('ternary operator displays different text based on filter state', () => {
   render(<App />);
-  expect(screen.getByText('📋 Showing all studio games')).toBeInTheDocument();
+  expect(screen.getByText('📋 Showing all actor reviews')).toBeInTheDocument();
   
   const filterCheckbox = screen.getByRole('checkbox');
   fireEvent.click(filterCheckbox);
-  expect(screen.getByText('✅ Showing released games only')).toBeInTheDocument();
+  expect(screen.getByText('✅ Showing verified reviews only')).toBeInTheDocument();
 });

@@ -1,88 +1,99 @@
 import React, { useState } from 'react';
-import StudioList from './components/StudioList';
-import GameCounter from './components/GameCounter';
-import PlatformToggle from './components/PlatformToggle';
+import ActorList from './components/ActorList';
+import ReviewCounter from './components/ReviewCounter';
+import RatingToggle from './components/RatingToggle';
 import './App.css';
 
 function App() {
-  const [studios, setStudios] = useState([
-    { id: 1, name: 'Studio Ghibli', game: 'Spirited Away Mobile', platform: 'iOS', released: true },
-    { id: 2, name: 'Toei Animation', game: 'Dragon Ball Legends', platform: 'Android', released: false },
-    { id: 3, name: 'Madhouse', game: 'One Punch Man Fighter', platform: 'iOS', released: true }
+  const [actors, setActors] = useState([
+    { id: 1, name: 'Masako Nozawa', character: 'Goku', phone: 'iPhone 15 Pro', rating: 5, verified: true },
+    { id: 2, name: 'Mayumi Tanaka', character: 'Luffy', phone: 'Samsung Galaxy S24', rating: 3, verified: false },
+    { id: 3, name: 'Noriaki Sugiyama', character: 'Sasuke', phone: 'Google Pixel 8', rating: 4, verified: true }
   ]);
 
-  const [newStudio, setNewStudio] = useState('');
-  const [newGame, setNewGame] = useState('');
-  const [newPlatform, setNewPlatform] = useState('');
-  const [showReleasedOnly, setShowReleasedOnly] = useState(false);
+  const [newActor, setNewActor] = useState('');
+  const [newCharacter, setNewCharacter] = useState('');
+  const [newPhone, setNewPhone] = useState('');
+  const [newRating, setNewRating] = useState('');
+  const [showVerifiedOnly, setShowVerifiedOnly] = useState(false);
 
-  const addStudio = (e) => {
+  const addActor = (e) => {
     e.preventDefault();
-    if (newStudio.trim() && newGame.trim() && newPlatform.trim()) {
-      const studio = {
+    if (newActor.trim() && newCharacter.trim() && newPhone.trim() && newRating.trim()) {
+      const actor = {
         id: Date.now(),
-        name: newStudio.trim(),
-        game: newGame.trim(),
-        platform: newPlatform.trim(),
-        released: false
+        name: newActor.trim(),
+        character: newCharacter.trim(),
+        phone: newPhone.trim(),
+        rating: parseInt(newRating),
+        verified: false
       };
-      setStudios([...studios, studio]);
-      setNewStudio('');
-      setNewGame('');
-      setNewPlatform('');
+      setActors([...actors, actor]);
+      setNewActor('');
+      setNewCharacter('');
+      setNewPhone('');
+      setNewRating('');
     }
   };
 
-  const toggleRelease = (id) => {
-    setStudios(studios.map(studio =>
-      studio.id === id ? { ...studio, released: !studio.released } : studio
+  const toggleVerified = (id) => {
+    setActors(actors.map(actor =>
+      actor.id === id ? { ...actor, verified: !actor.verified } : actor
     ));
   };
 
-  const filteredStudios = showReleasedOnly 
-    ? studios.filter(studio => studio.released)
-    : studios;
+  const filteredActors = showVerifiedOnly 
+    ? actors.filter(actor => actor.verified)
+    : actors;
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🎬 Anime Studio Mobile Game Tracker 🎮</h1>
+        <h1>🎤 Anime Voice Actor Phone Review Tracker 📱</h1>
       </header>
       
       <main>
-        <PlatformToggle 
-          showReleasedOnly={showReleasedOnly}
-          onToggle={() => setShowReleasedOnly(!showReleasedOnly)}
+        <RatingToggle 
+          showVerifiedOnly={showVerifiedOnly}
+          onToggle={() => setShowVerifiedOnly(!showVerifiedOnly)}
         />
 
-        <form onSubmit={addStudio} className="add-form">
+        <form onSubmit={addActor} className="add-form">
           <input
             type="text"
-            placeholder="Studio name..."
-            value={newStudio}
-            onChange={(e) => setNewStudio(e.target.value)}
+            placeholder="Voice actor name..."
+            value={newActor}
+            onChange={(e) => setNewActor(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Mobile game..."
-            value={newGame}
-            onChange={(e) => setNewGame(e.target.value)}
+            placeholder="Character voiced..."
+            value={newCharacter}
+            onChange={(e) => setNewCharacter(e.target.value)}
           />
           <input
             type="text"
-            placeholder="Platform (iOS/Android)..."
-            value={newPlatform}
-            onChange={(e) => setNewPlatform(e.target.value)}
+            placeholder="Phone model..."
+            value={newPhone}
+            onChange={(e) => setNewPhone(e.target.value)}
           />
-          <button type="submit">Add Studio Game</button>
+          <input
+            type="number"
+            placeholder="Rating (1-5)..."
+            min="1"
+            max="5"
+            value={newRating}
+            onChange={(e) => setNewRating(e.target.value)}
+          />
+          <button type="submit">Add Review</button>
         </form>
 
-        <StudioList 
-          studioList={filteredStudios}
-          onToggleRelease={toggleRelease}
+        <ActorList 
+          actorList={filteredActors}
+          onToggleVerified={toggleVerified}
         />
 
-        <GameCounter studioCount={studios.length} />
+        <ReviewCounter actorCount={actors.length} />
       </main>
     </div>
   );
