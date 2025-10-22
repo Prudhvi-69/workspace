@@ -1,98 +1,85 @@
-import React, { useState } from 'react';
-import ConventionList from './components/ConventionList';
-import AppCounter from './components/AppCounter';
-import EventToggle from './components/EventToggle';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import FoodList from './components/FoodList';
+import OrderForm from './components/OrderForm';
+import LoadingSpinner from './components/LoadingSpinner';
 import './App.css';
 
 function App() {
-  const [conventions, setConventions] = useState([
-    { id: 1, name: 'Anime Expo', location: 'Los Angeles', app: 'AX Mobile Guide', downloads: 15000, featured: true },
-    { id: 2, name: 'Comic-Con', location: 'San Diego', app: 'Con Mobile Hub', downloads: 8500, featured: false },
-    { id: 3, name: 'Otakon', location: 'Washington DC', app: 'Otakon Connect', downloads: 12000, featured: true }
-  ]);
+  const [foods, setFoods] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState('');
 
-  const [newConvention, setNewConvention] = useState('');
-  const [newLocation, setNewLocation] = useState('');
-  const [newApp, setNewApp] = useState('');
-  const [newDownloads, setNewDownloads] = useState('');
-  const [showFeaturedOnly, setShowFeaturedOnly] = useState(false);
+  useEffect(() => {
+    fetchFoods();
+  }, []);
 
-  const addConvention = (e) => {
-    e.preventDefault();
-    if (newConvention.trim() && newLocation.trim() && newApp.trim() && newDownloads.trim()) {
-      const convention = {
-        id: Date.now(),
-        name: newConvention.trim(),
-        location: newLocation.trim(),
-        app: newApp.trim(),
-        downloads: parseInt(newDownloads),
-        featured: false
-      };
-      setConventions([...conventions, convention]);
-      setNewConvention('');
-      setNewLocation('');
-      setNewApp('');
-      setNewDownloads('');
+  const fetchFoods = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get('https://jsonplaceholder.typicode.com/posts');
+      const starWarsFoods = response.data.slice(0, 6).map(post => ({
+        id: post.id,
+        name: `${post.title.split(' ')[0]} Cantina Special`,
+        planet: post.title.split(' ')[1] || 'Tatooine',
+        price: Math.floor(Math.random() * 50) + 10,
+        available: Math.random() > 0.3
+      }));
+      setFoods(starWarsFoods);
+    } catch (err) {
+      setError('Failed to fetch Star Wars cantina menu. The Empire may be interfering.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  const toggleFeatured = (id) => {
-    setConventions(conventions.map(conv =>
-      conv.id === id ? { ...conv, featured: !conv.featured } : conv
-    ));
+  const addFood = async (newFood) => {
+    setLoading(true);
+    setError(null);
+    setSuccess('');
+    try {
+      const response = await axios.post('https://jsonplaceholder.typicode.com/posts', {
+        title: newFood.name,
+        body: `Delicious food from ${newFood.planet}`,
+        userId: 1
+      });
+      
+      const foodItem = {
+        id: response.data.id,
+        name: newFood.name,
+        planet: newFood.planet,
+        price: newFood.price,
+        available: true
+      };
+      
+      setFoods([...foods, foodItem]);
+      setSuccess('New cantina dish added successfully!');
+    } catch (err) {
+      setError('Failed to add food item. The Death Star may be blocking transmissions.');
+    } finally {
+      setLoading(false);
+    }
   };
-
-  const filteredConventions = showFeaturedOnly 
-    ? conventions.filter(conv => conv.featured)
-    : conventions;
 
   return (
     <div className="App">
       <header className="App-header">
-        <h1>🎪 Anime Convention Mobile App Showcase Tracker 📱</h1>
+        <h1>🌟 Star Wars Cantina Food Delivery API 🍽️</h1>
       </header>
       
       <main>
-        <EventToggle 
-          showFeaturedOnly={showFeaturedOnly}
-          onToggle={() => setShowFeaturedOnly(!showFeaturedOnly)}
-        />
-
-        <form onSubmit={addConvention} className="add-form">
-          <input
-            type="text"
-            placeholder="Convention name..."
-            value={newConvention}
-            onChange={(e) => setNewConvention(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Location..."
-            value={newLocation}
-            onChange={(e) => setNewLocation(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Mobile app name..."
-            value={newApp}
-            onChange={(e) => setNewApp(e.target.value)}
-          />
-          <input
-            type="number"
-            placeholder="Downloads count..."
-            min="0"
-            value={newDownloads}
-            onChange={(e) => setNewDownloads(e.target.value)}
-          />
-          <button type="submit">Add Convention</button>
-        </form>
-
-        <ConventionList 
-          conventionList={filteredConventions}
-          onToggleFeatured={toggleFeatured}
-        />
-
-        <AppCounter conventionCount={conventions.length} />
+        {loading && <LoadingSpinner />}
+        {error && <div className="error-message">❌ {error}</div>}
+        {success && <div className="success-message">✅ {success}</div>}
+        
+        <OrderForm onAddFood={addFood} />
+        <FoodList foods={foods} />
+        
+        <button onClick={fetchFoods} className="refresh-btn">
+          🔄 Refresh Cantina Menu
+        </button>
       </main>
     </div>
   );
