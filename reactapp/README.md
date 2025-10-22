@@ -1,36 +1,40 @@
-# 🔴 Matrix Code Restaurant Network 🍽️
+# 👨🍳 Gourmet Food Recipe API Manager 🍽️
 
-A React application demonstrating API integration with Matrix-themed restaurant management system.
+A React application demonstrating comprehensive API integration with food recipe management system.
 
 ## API Features Implemented
 
 ### Core API Concepts:
-- **Fetch API**: Uses native Fetch for GET and POST requests
-- **Backend Integration**: Integrates with JSONPlaceholder mock API
-- **Error Handling**: Comprehensive error handling for API responses
-- **Loading States**: Matrix rain animation during API calls
-- **Success States**: Success messages for completed operations
+- **Axios GET Requests**: Fetches recipe database from mock API
+- **Axios POST Requests**: Adds new recipes to cookbook
+- **Axios DELETE Requests**: Removes recipes from database
+- **Error Handling**: Comprehensive error handling for all API operations
+- **Loading States**: Cooking animation during API calls
+- **Success States**: Confirmation messages for completed operations
 
 ### App Functionality:
-- Fetch restaurant network from mock API (GET requests)
-- Add new restaurants to Matrix network (POST requests)
-- Display Matrix-themed loading animations
-- Handle and display API errors with Matrix references
+- Fetch recipe collection from mock API (GET requests)
+- Add new recipes to cookbook (POST requests)
+- Delete recipes from database (DELETE requests)
+- Display cooking-themed loading animations
+- Handle and display API errors with food-themed messages
 - Show success messages for completed operations
-- Refresh network functionality
+- Recipe rating and difficulty system
+- Availability status tracking
 
 ## API Integration Details:
-- **GET Endpoint**: `https://jsonplaceholder.typicode.com/users`
-- **POST Endpoint**: `https://jsonplaceholder.typicode.com/users`
-- **Error Handling**: Network errors, server errors, response validation
-- **Loading States**: Matrix rain animation with green digital aesthetic
-- **Data Transformation**: Maps API responses to Matrix restaurant data
+- **GET Endpoint**: `https://jsonplaceholder.typicode.com/posts`
+- **POST Endpoint**: `https://jsonplaceholder.typicode.com/posts`
+- **DELETE Endpoint**: `https://jsonplaceholder.typicode.com/posts/{id}`
+- **Error Handling**: Network errors, server errors, timeout handling
+- **Loading States**: Animated cooking pots with steam effects
+- **Data Transformation**: Maps API responses to recipe data structure
 
 ## Components Structure:
-- `App.js` - Main component with Fetch API integration logic
-- `RestaurantList.js` - Displays fetched data with Matrix styling
-- `OrderForm.js` - Form for POST requests with Matrix theme
-- `MatrixLoader.js` - Loading state with animated Matrix rain
+- `App.js` - Main component with comprehensive API integration
+- `RecipeList.js` - Displays recipes with delete functionality
+- `RecipeForm.js` - Form for POST requests with validation
+- `CookingLoader.js` - Loading state with cooking animations
 
 ## Running the App:
 ```bash
@@ -46,12 +50,12 @@ npm test
 
 ## Test Coverage:
 6 comprehensive test cases covering:
-1. GET requests with Fetch API
+1. GET requests with Axios
 2. POST requests with form submission
-3. Loading state with Matrix animations
-4. GET request error handling
-5. POST request error handling
+3. DELETE requests with recipe removal
+4. Loading state with cooking animations
+5. Error handling for failed requests
 6. Success state handling
 
-## Theme: Matrix Digital Restaurant Network
-Pure Matrix aesthetic with green digital rain, monospace fonts, and cyberpunk restaurant management.
+## Theme: Gourmet Food Recipe Management
+Pure food-themed interface with warm colors, cooking animations, and comprehensive recipe management features.
